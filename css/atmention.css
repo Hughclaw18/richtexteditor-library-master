@@ -1,0 +1,42 @@
+.ui-rte-prosemirror-suggestion {
+    background: var(--rte-mentions-bg-color);
+    border: 1px solid var(--rte-mentions-border-color);
+	color: var(--rte-mentions-text-color) !important;
+	text-decoration: none !important;
+    border-radius: 2px;
+}
+
+.suggestion-item-active {
+	background: var(--rte-mentions-list-bg-selected-color);
+	font-weight: normal;
+	border-radius: 2px;
+}
+.ui-rte-suggestion-item .graytxt {
+	color: var(--rte-mentions-list-gray-text-color);
+	font-weight: 300;
+}
+  
+.ui-rte-suggestion-item-list {
+    background: var(--rte-mentions-list-bg-color);
+	color: var(--rte-mentions-list-text-color);
+    border: 1px solid var(--rte-mentions-list-border-color);
+    box-shadow: 0 0 10px 0 var(--rte-mentions-list-box-shadow-color);
+    height: auto;
+	font-size: 13px;
+}
+  
+.ui-rte-suggestion-item {
+    height: 55px;
+    border: 1px solid transparent;
+}
+
+.ui-rte-cmnt-atmention-name {
+	color: var(--rte-mentions-list-text-color);
+	font-weight: 900;
+}
+
+.ui-rte-atmetion-suggestion-container {
+	z-index: 10020;
+	width: 350px;
+	cursor: pointer;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RichTextEditor</title>
+
+    
+    <script src="../../dist/1.4.16/js/rte.js"> </script>
+    <!-- <script src="http://build.csez.zohocorpin.com/zoho/richtexteditor_library/webhost/master/Feb_01_2023/dist/1.0.0/js/rte.min.js"> </script> -->
+    <!-- <script src="https://static.stratuscdn.com/rtelibrary/1.0.0/js/rte.min.js"> </script> -->
+    <script src="import.js"></script>
+    <script src="CliqExport.js"></script>
+    <script src="index.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Lato:ital,wght@0,300;0,400;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:regular,regularitalic,bold,bolditalic|Open+Sans:regular,regularitalic,bold,bolditalic">
+    <link rel="stylesheet" href="https://static.zohocdn.com/chat/source/officechat/styles/officechat-min.07efddc385b544db858507a5db1de977.css">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.13.1/ace.js" integrity="sha512-IQmiIneKUJhTJElpHOlsrb3jpF7r54AzhCTi7BTDLiBVg0f7mrEqWVCmOeoqKv5hDdyf3rbbxBUgYf4u3O/QcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/mode/javascript/javascript.js" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.css" rel="stylesheet"> -->
+
+    <!-- <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css"> -->
+    
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #0b242f12;
+            font-size: 13px;
+        }
+    
+        pre {
+            /* background: #f9f9f9; */
+            /* padding: 10px; */
+            border-radius: 5px;
+            margin: auto;
+        }
+        .page-header button {
+            min-height: 30px;
+        }
+
+        .ui-rte-editor-div code[rte-inline-quote] {
+            color: red;
+            padding: 0px;
+            background-color: transparent;
+            border-radius: 0px;
+        }
+        
+    </style>
+</head>
+
+<body>
+<div class="body-container" style="padding: 20px;">
+    <div class="page-header" style="
+    align-content: center;
+    text-align: center;
+    width: 968px;
+    margin: auto;
+    margin-bottom: 10px;
+"> 
+    <div class="ui-flex-container ui-flex-center">
+        <button class="rte-btn ui-right-margin-medium" id="switch-to-full-editor"> Chat Demo </button> 
+        <!-- <button id="download-json"> Download JSON </button> <button id="download-html">Download HTML</button> -->
+    </div>
+    <!-- <span style="float:right">
+        <button id="download-json"> Download JSON </button> <button id="download-html">Download HTML</button>
+    </span> -->
+    </div>
+
+    <div id="chat-container" style="margin: auto; width: 700px; min-height: 500px; max-height: 700px; border: 1px solid #aaa; border-radius: 5px; background: #f9f9f9; position: relative;">
+        <div id="dummy-chat-div-1"></div>
+        <div id="dummy-chat-div-2"></div>
+
+        <div style="position: absolute; bottom: 0;" id="compcontainer" class="chatarea posl">
+            <div id="composermain" class="chatareamn zcaudiorecord ">
+                <div id="schedulemsgprompt" class="flex dN zcf-schedulemsgprompt p8 mR10 mL10 posrel"
+                    data-view="schedulemsgprompt"></div>
+                <div class="cstatusmsg" id="composer_wrapper"><span id="triggerinstantcmd-popup2300747230383907815"
+                        class="zcl-alert-xs zcl-alert-info commit-action-btn cur fshrink" chid="2300747230383907815"
+                        purpose="instantcmdpopup"><em class="zcf-integ mR4"></em>Commands</span><span id="cstatusmsg"
+                        class="cstsmsg ital"></span>
+                    <div id="triggeractions2300747230383907815" purpose="moreaction" class="zcactn flexC"
+                        data-purpose="zcpinchat"><span class="zcactxt">Actions</span>
+                        <div class="zcf-downArrow font10 mL6"></div>
+                    </div>
+                    <div id="chatactionsholder2300747230383907815" style="display:none">
+                        <div class="font14 zcl-menu-wrap no-pointer ovrflwH" align="top" id="chatactionlist">
+                            <div id="print" class="zcl-menu-item ellips" purpose="actions"><span
+                                    class="zcl-menu-item-icn zcf-print"></span><span class="ellips">Print</span></div>
+                            <div id="unpin" class="zcl-menu-item ellips" purpose="actions"><span
+                                    class="zcl-menu-item-icn zcf-unpin"></span><span class="ellips">Unpin Conversation</span>
+                            </div>
+                            <div id="create_event" data-qa="createEvent" purpose="actions" class="zcl-menu-item ellips"><span
+                                    class="zcl-menu-item-icn zcf-calendar"></span><span class="ellips">Schedule Meeting</span>
+                            </div>
+                            <div id="createremwin" data-qa="createReminder" purpose="actions" class="zcl-menu-item ellips"><span
+                                    class="zcl-menu-item-icn zcf-reminders"></span><span class="ellips">Set a Reminder</span>
+                            </div>
+                            <div id="historystorage" class="zcl-menu-item ellips" action="disable" data-qa="historyStorage"
+                                purpose="actions"><span class="zcl-menu-item-icn zcf-secretchat"></span><span
+                                    class="ellips">Turn Off History</span></div>
+                            <div id="mediagallery" class="zcl-menu-item" purpose="actions"><span
+                                    class="zcl-menu-item-icn zcf-mediagallery"></span><span>View Media Files</span></div>
+                            <div id="starred_msgs" data-qa="chatSpecificStarredMsgs" class="zcl-menu-item" purpose="actions">
+                                <span class="zcl-menu-item-icn zcf-star"></span><span>Starred Messages</span></div>
+                            <div id="mutualchats" class="zcl-menu-item ellips" purpose="actions"><span
+                                    class="zcl-menu-item-icn zcf-common"></span><span class="ellips">Chats in Common</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="promptbanner" style="display:none" class="zcprmtbanr"></div>
+                </div>
+                <div id="chtwinnav" class="chtwinnav flexM dN" purpose="scrolldown" data-qa="chtwinnav" style="display: none;">
+                    <span class="zcf-downArrow mT4"></span>
+                    <div id="cwinunreadcount" class="msgnotify"></div>
+                </div>
+                <div id="chtwinnavmention" class="chtwinnav chtwinnavmention flexM dN" purpose="scrolldown"
+                    data-qa="chtwinnavmention" style="display: none;">
+                    <span class="zcf-mention ztb-icons mT4"></span>
+                    <div id="cwinunreadmentioncount" class="msgnotify"></div>
+                </div>
+                <div id="chatwindropdown" class="chateditrmn">
+                    <div id="compfiledropcontainer" class="zcfiledrgmn"><span>Drop your file here to send as an
+                            attachment</span></div>
+                    <div class="zceditrsndfile" data-purpose="zcsharefile" id="triggeratt2300747230383907815">
+                        <div id="filepickeractionsholder2300747230383907815" class="filepckr-actn">
+                            <div class="fileatchmnt zcl-menu-wrap" align="top" editoption="false">
+                                <div purpose="snippetatchmnt2300747230383907815" class="zcl-menu-item ellips"><em
+                                        class="zcl-menu-item-icn zcf-code-snippet"></em><span class="ellips">Code
+                                        Snippet<span></span></span></div>
+                                <div purpose="edit2300747230383907815" class="zcl-menu-item ellips"><em
+                                        class="zcl-menu-item-icn zcf-artboard"></em><span class="ellips">Whiteboard</span></div>
+                                <div purpose="workdriveatchmnt2300747230383907815" class="zcl-menu-item ellips"><em
+                                        class="zcl-menu-item-icn zcf-workdrive-upload"></em><span class="ellips">Share from
+                                        WorkDrive</span></div>
+                                <div purpose="cloudatchmnt2300747230383907815" class="zcl-menu-item ellips"><em
+                                        class="zcl-menu-item-icn zcf-cloud"></em><span class="ellips">Attach from Cloud</span>
+                                </div>
+                                <div id="subfile2300747230383907815" purpose="subfile2300747230383907815"
+                                    class="zcl-menu-item ellips posrel"><em class="zcl-menu-item-icn zcf-computer"></em><span
+                                        class="ellips">Upload from Computer</span>
+                                    <form id="upload2300747230383907815" type="html5" enctype="multipart/form-data"><input
+                                            type="file" multiple="" name="file1" class="sendfile wh100"
+                                            id="file2300747230383907815"></form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="msi-atchmnd" title="Upload Files"></div>
+                    </div>
+                    <div class="zchatxtareamn" data-purpose="zcmention">
+                        <div class="txtformat flexC" style="z-index: 200;"><span id="voice-note-icon-dummy"
+                                class="zcf-mic smiley-icon mR6 font16"></span>
+                            <span id="voice-note-icon" class="mediamsg-wrap mR6">
+                                <div class="mediamsg-item zcf-screen-record-msg smiley-icon flexM tooltip-left"
+                                    purpose="start_screen_record" tooltip-title="Screen record"></div>
+                                <div class="mediamsg-item zcf-video-msg smiley-icon flexM tooltip-left"
+                                    purpose="start_video_message" tooltip-title="Video message"></div>
+                                <div class="mediamsg-item zcf-mic smiley-icon flexM tooltip-left" purpose="send_voice_note"
+                                    tooltip-title="Voice message"></div>
+                            </span><span id="schedule-msg-icon" data-trigger="source" purpose="moreaction"
+                                class="mL6 mR6 zcf-schedule smiley-icon font22 dN"
+                                data-ztemp-title="Schedule Message"></span><span id="triggersmileys2300747230383907815"
+                                data-trigger="source" data-purpose="zcsmileys" purpose="moreaction"
+                                class="zcf-def_emoji smiley-icon font24"></span>
+                        </div>
+                        <div id="smileys2300747230383907815" class="smileydivmn" data-target="1" data-trigger="destination">
+                        </div>
+                        <div id="rte-wrapper-container"></div>
+                        <div class="zwp-v4_3"
+                            style="position: absolute; pointer-events: none; width: 775px; height: 60px; top: 0px; left: 0px; display: block;">
+                            <div id="zwp-error-layer-div"
+                                style="position: absolute; pointer-events: none; overflow: hidden; width: 775px; height: 60px;">
+                                <div id="zwp-error-container" style="position: absolute; height: 60px; width: 1330px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="compautocomplete2300747230383907815" class="chtedtrdrpdwn" style="display:none" trigger="composer">
+                    </div>
+                    <div id="msgoptionspreview2300747230383907815" class="zcurlprv">
+                        <div id="closepreview" class="zcl-close-icon zcf-closeB abs-close-icon sm filled"></div>
+                        <div class="zcreplypreview clrboth">
+                            <div id="preview" class="dIB zcmsgrlypr msgtxt me"></div>
+                        </div>
+                    </div>
+                    <div id="urlinfopreview2300747230383907815" omittedlinks="" class="zcurlprv">
+                        <div id="closepreview" class="zcl-close-icon zcf-closeB abs-close-icon sm filled"></div>
+                        <div id="preview"></div>
+                    </div>
+                    <div id="appunfurlconsent2300747230383907815"
+                        class="zcurlprv justifySB flexM p10 dN gap10 app-unfurl-consent-over-composer"
+                        data-qa="application-unfurl-consent"></div>
+                </div>
+                <div id="messageoperationcontrol2300747230383907815" class="msgoptioncontrol" style="display:none"></div>
+            </div>
+            <div id="helptip" class="zcedtrinfo posl dflxcent" style="visibility: visible;">
+                <div class="flexC composrhelp posrel">
+                    <div class="flexG textC font14 ellips" data-qa="helptext">Type ":" to get emoji suggestions</div>
+                    <div id="openSpellCheckContainer" class="flex curP dN openspellcheckcontainer posrel"
+                        data-operation="openSpellCheckContainer" data-qa="openSpellCheckContainer" title="Writing assistant">
+                        <div id="bluepencil-error-indicator" class="bluepencilerror ripple-error-1 dN"></div><span
+                            class="zcf-magicwand clr-theme mL5" data-operation="openSpellCheckContainer"
+                            data-qa="openSpellCheckContainer"></span>
+                    </div>
+                    <div class="zcqustnmn posl fshrink">
+                        <div class="markdwnHlp curP flexM" customtooltip="" data-operation="showmarkdown"
+                            data-qa="showmarkdown"><span class="zcf-markdown font20 flexC"></span></div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="md-output-container" style="margin: auto;margin-top: 10px;width: 700px;height: 300px; overflow: auto;border: 1px solid #aaa;border-radius: 5px;background: #f9f9f9;position: relative;white-space: pre-wrap;line-height: normal;font-family: monospace; padding: 10px;background: #000;color: #fff;">
+    </div>
+
+</div>
+</body>
+
+</html>
+
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RichTextEditor</title>
+
+    
+    <script src="../../dist/1.4.16/js/rte.js"> </script>
+    <script src="index.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Lato:ital,wght@0,300;0,400;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:regular,regularitalic,bold,bolditalic|Open+Sans:regular,regularitalic,bold,bolditalic">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #0b242f12;
+            font-size: 13px;
+            --connect-highlight-color: red
+        }
+
+        .ui-rte-editor-div blockquote {
+            background: rgb(239, 240, 248) !important;
+            -webkit-border-radius: 0 3px 3px 0;
+            -moz-border-radius: 0 3px 3px 0;
+            border-radius: 0 3px 3px 0;
+            margin: 5px 0;
+            border-left: 1px solid rgb(80, 91, 177);
+            padding: 10px 20px;
+            font-style: normal;
+            letter-spacing: .1px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .connect-highlight {
+            background-color: var(--connect-highlight-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="rte-wrapper-container" style="border: 1px solid #e2e2e2; margin: auto; width: 540px; max-height: 286px; overflow-y: auto; height: 225px;"></div>
+</body>
+
+</html>

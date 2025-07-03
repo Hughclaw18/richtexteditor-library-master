@@ -1,0 +1,67 @@
+{
+  "name": "rte",
+  "version": "1.4.16",
+  "description": "",
+  "main": "./dist/1.4.16/js/rte.es.js",
+  "exports": {
+    ".": "./dist/1.4.16/js/rte.es.js",
+    "./i18n/*": "./dist/1.4.16/js/i18n/*"
+  },
+  "style": "./dist/1.4.16/css/rte.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "reinstall-components": "rm -rf ./node_modules/zohocomponents && npm install zohocomponents --registry http://cm-npmregistry --zc-package-configuration-file-path='./components.config.json'  --legacy-peer-deps",
+    "dev": "rollup -c ./merge.config.js --dev",
+    "build": "rollup -c ./merge.config.js && npm run i18n",
+    "i18n": "python generateMessageResources.py ./js/MessageResources ./dist/1.4.16/js/i18n",
+    "watch": "watch 'npm run build' ./js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "7.2.2",
+    "@codemirror/lang-javascript": "6.1.1",
+    "@codemirror/lang-json": "6.0.1",
+    "@codemirror/lang-markdown": "6.1.1",
+    "@codemirror/theme-one-dark": "6.1.2",
+    "codemirror": "6.0.1",
+    "dompurify": "3.1.6",
+    "prosemirror-commands": "1.5.2",
+    "prosemirror-gapcursor": "1.3.2",
+    "prosemirror-history": "1.0.3",
+    "prosemirror-inputrules": "1.1.3",
+    "prosemirror-keymap": "1.2.2",
+    "prosemirror-markdown": "1.11.2",
+    "prosemirror-model": "1.18.3",
+    "prosemirror-schema-list": "1.2.1",
+    "prosemirror-state": "1.4.3",
+    "prosemirror-tables": "1.2.5",
+    "prosemirror-transform": "1.8.0",
+    "prosemirror-utils": "0.9.6",
+    "prosemirror-view": "1.29.1",
+    "w3c-keyname": "2.2.6",
+    "zohocomponents": "5.2.0-beta.16",
+    "markdown-it-emoji": "3.0.0",
+    "markdown-it-footnote": "3.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.7.0",
+    "@babel/preset-env": "7.2.3",
+    "@rollup/plugin-babel": "5.0.0",
+    "@rollup/plugin-json": "4.1.0",
+    "handlebars": "4.7.7",
+    "rollup": "2.0.0",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-handlebars-plus": "0.4.2",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "4.0.0",
+    "rollup-plugin-terser": "7.0.2",
+    "watch": "1.0.2"
+  },
+  "conf": {
+    "menubar": "new"
+  }
+}

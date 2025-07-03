@@ -1,0 +1,335 @@
+.rte-toolbar-blocks .zbutton, .rte-toolbar-blocks .zbutton:hover,
+.ui-rte-group-more .zbutton, .ui-rte-group-more .zbutton:hover {
+    border: 1px solid transparent;
+}
+
+/* .rte-toolbar-blocks .zbutton:active, .rte-toolbar-blocks .zbutton.is-selected.has-focus,
+.ui-rte-group-more .zbutton:active, .ui-rte-group-more .zbutton.is-selected.has-focus {
+    border: 0;
+} */
+
+.rte-toolbar-blocks .zbutton.zbutton-menu, .rte-toolbar-blocks .zbutton.zbutton-menu:hover,
+.ui-rte-group-more .zbutton.zbutton-menu, .ui-rte-group-more .zbutton.zbutton-menu:hover {
+    border-left: 1px solid #dddddd;
+}
+
+.rte-toolbar-blocks .state-button.is-selected,
+.ui-rte-group-more .state-button.is-selected {
+    border: 1px solid #dadbdd;
+    background-color: #FFF;
+}
+
+.rte-toolbar-blocks .zcombobox,
+.ui-rte-group-more .zcombobox {
+    line-height: 1.3;
+    font-size: 11px;
+    width: 60px;
+}
+
+.rte-toolbar-blocks .context-menu-popover,
+.ui-rte-group-more .context-menu-popover {
+    position: fixed;
+
+}
+.rte-toolbar-blocks .zpopover,
+.ui-rte-group-more .zpopover {
+    border: 1px solid #DBE0ED;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.rte-toolbar-blocks .context-menu-popover div.zpopover__content,
+.ui-rte-group-more .context-menu-popover div.zpopover__content {
+    padding: 10px;
+}
+
+
+
+/* Mail menubar customizations */
+
+.zmetoolbar {
+    background-color: var(--zmetoolbar-bg,var(--app-box-bg,#f9f9f9));
+    border-color: var(--zmetoolbar-border-color,var(--app-border-color,#e7e7e7));
+    display: flex;
+    padding: 0 var(--zmetoolbar-padding-x,3px);
+
+    border-style: none;
+    border-width: 1px;
+    border-radius: 0;
+}
+
+.zmetoolbar__btn.is-selected {
+    border-color: var(--zmetoolbar-btn-hover-border-color,var(--app-border-color-dark,#dadbdd));
+}
+
+.zmetoolbar__btn.is-selected {
+    background-color: var(--zmetoolbar-btn-hover-bg,var(--app-bg,#FFF));
+}
+
+#rte-menubar .zmenu__icon {
+    font-size: 14px;
+}
+
+
+/* Menubar related css */
+
+.rte-toolbar-blocks .state-button.zbutton:hover,
+.rte-toolbar-blocks .state-button.zbutton.is-selected,
+.rte-toolbar-blocks .state-button.zbutton.is-selected.has-focus,
+.ui-rte-group-more .state-button.zbutton:hover,
+.ui-rte-group-more .state-button.zbutton.is-selected,
+.ui-rte-group-more .state-button.zbutton.is-selected.has-focus {
+    background: var(--rte-toolbar-bg-selected-color);
+    border-color: var(--rte-toolbar-border-selected-color);
+    z-index: 1;
+}
+
+#rte-menubar .rte-toolbar-blocks .zbutton,
+#rte-menubar .ui-rte-group-more .zbutton {
+    background: var(--rte-toolbar-btn-bg-color);
+    border: 1px solid var(--rte-toolbar-btn-border-color);
+}
+
+.rte-toolbar-blocks .zcombobox,
+.ui-rte-group-more .zcombobox {
+    background: var(--rte-toolbar-btn-bg-color);
+    border: 1px solid var(--rte-toolbar-btn-border-color);
+}
+
+.rte-toolbar-blocks .zcombobox .zselectbox__icon,
+.ui-rte-group-more .zcombobox .zselectbox__icon {
+    background: var(--rte-toolbar-btn-bg-color);
+    border: none;
+}
+
+.rte-toolbar-blocks .zcombobox .zselectbox__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rte-link-popover .zpopover__content {
+    padding: 10px;
+}
+
+.ui-rte-group-more-parent .zpopover__content {
+    padding: 7px;
+}
+
+.rte-toolbar-blocks .zcombobox:hover .zselectbox__icon,
+.ui-rte-group-more .zcombobox:hover .zselectbox__icon {
+    border: none;
+    background-color: transparent;
+}
+
+.rte-toolbar-blocks .zcombobox.is-active .zselectbox__icon,
+.ui-rte-group-more .zcombobox.is-active .zselectbox__icon {
+    border: none;
+    background-color: transparent !important;
+}
+
+.rte-toolbar-blocks .zcombobox:hover .zselectbox__icon:hover,
+.ui-rte-group-more .zcombobox:hover .zselectbox__icon:hover {
+    background-color: transparent !important;
+}
+
+.rte-toolbar-blocks .zcombobox.is-active,
+.ui-rte-group-more .zcombobox.is-active {
+    border: 1px solid var(--rte-toolbar-border-selected-color)
+}
+
+.rte-toolbar-blocks .zcombobox .zselectbox__icon .zselectbox__arrow,
+.ui-rte-group-more .zcombobox .zselectbox__icon .zselectbox__arrow {
+    fill: rgb(17, 17, 17) 
+}
+
+.rte-toolbar-blocks .zcombobox:hover,
+.ui-rte-group-more .zcombobox:hover {
+    border: 1px solid var(--rte-toolbar-border-selected-color);
+    background-color: var(--rte-toolbar-bg-selected-color);
+}
+
+.rte-menu-button-split-dropdown i.zh-floatright svg {
+    width: 16px;
+    height: 16px;
+    fill: black;
+    box-sizing: border-box;
+}
+
+.rte-menu-button-split-dropdown i.zh-floatright {
+    margin: 0px -3px 3px 3px !important;
+}
+
+.rte-toolbar-menu-bar-table-popover .zpopover__content{
+    padding: 5px;
+}
+
+#rte-comp-mount-div .zmenu__item {
+    background-color: var(--rte-zdropdown-bg-color) !important;
+}
+
+#rte-comp-mount-div .zmenu {
+    background-color: var(--rte-zdropdown-bg-color) !important;
+    border: 1px solid var(--rte-zdropdown-border-color) !important;
+}
+
+#rte-comp-mount-div .zmenu__text {
+    color: var(--rte-zdropdown-text-color) !important;
+}
+
+#rte-menubar .zbutton {
+    color: var(--rte-toolbar-text-color) !important;
+}
+
+#rte-menubar .zbutton.is-selected {
+    box-shadow: inset 0px 0px 0px 1px var(--rte-toolbar-bg-selected-color), 0 0 0 0 transparent !important;
+}
+
+#rte-menubar #container-for-script .zbutton.is-selected {
+    box-shadow: none !important;
+}
+
+#rte-menubar .zselectbox__textbox {
+    color: var(--rte-toolbar-text-color) !important;
+}
+
+#rte-comp-mount-div .zdropdownlist {
+    background-color: var(--rte-zdropdown-bg-color);
+    border: 1px solid var(--rte-zdropdown-border-color)
+}
+
+#rte-comp-mount-div .zdropdownlist__item {
+    background-color: var(--rte-zdropdown-bg-color);
+}
+
+#rte-comp-mount-div .zdropdownlist__item.is-selected,
+#rte-comp-mount-div .zdropdownlist__item.on-hover,
+#rte-comp-mount-div .zmenu__item.on-hover {
+    background-color: var(--rte-zdropdown-bg-selected-color) !important;
+}
+
+#rte-comp-mount-div .zdropdownlist__item.is-selected .zdropdownlist__text,
+#rte-comp-mount-div .zdropdownlist__text,
+#rte-comp-mount-div .zdropdownlist__noresultstext {
+    color: var(--rte-zdropdown-text-color) !important
+}
+
+#rte-comp-mount-div .zcolorpicker__nocolorbutton,
+#rte-comp-mount-div .zcolorpicker__nocolorbutton:active,
+#rte-comp-mount-div .zcolorpicker__defaultcolorbutton,
+#rte-comp-mount-div .zcolorpicker__defaultcolorbutton:active,
+#rte-comp-mount-div .zcolorpicker__palettecontainer,
+#rte-comp-mount-div .zcolorpicker__nocolorbutton:hover,
+#rte-comp-mount-div .zcolorpicker__defaultcolorbutton:hover,
+#rte-comp-mount-div .zcolorpicker__palettecontainer:hover,
+#rte-comp-mount-div .zcolorpicker__morecolorbutton,
+#rte-comp-mount-div .zcolorpicker__morecolorbutton:active,
+#rte-comp-mount-div .zcolorpicker__morecolorbutton:hover,
+#rte-comp-mount-div .zcolorpicker__colormodecontainer,
+#rte-comp-mount-div .zcolorpicker__colormodecontainer:active,
+#rte-comp-mount-div .zcolorpicker__colormodecontainer:hover,
+#rte-comp-mount-div .zcolorpicker__colorfieldcontainer,
+#rte-comp-mount-div .zcolorpicker__colorfieldcontainer:active,
+#rte-comp-mount-div .zcolorpicker__colorfieldcontainer:hover,
+#rte-comp-mount-div .zcolorpicker__footer,
+#rte-comp-mount-div .zcolorpicker__footer:active,
+#rte-comp-mount-div .zcolorpicker__footer:hover {
+    background-color: var(--rte-zdropdown-bg-color);
+    border-color: var(--rte-zdropdown-border-color)
+}
+
+#rte-comp-mount-div .zcolorpicker__selectbox,
+#rte-comp-mount-div .zcolorpicker__hexcolorfield,
+#rte-comp-mount-div .zcolorpicker__othercolormodefield {
+    background-color: var(--rte-zdropdown-bg-color);
+    border-color: var(--rte-zdropdown-border-color);
+    color: var(--rte-zdropdown-text-color);
+}
+
+#rte-comp-mount-div .zcolorpicker__hexcolorfieldlabel,
+#rte-comp-mount-div .zcolorpicker__othercolormodefieldlabel,
+#rte-comp-mount-div .zcolorpicker__selectbox .zselectbox__text,
+#rte-comp-mount-div .zcolorpicker__hexcolorfield .zinputfield__textbox,
+#rte-comp-mount-div .zcolorpicker__othercolormodefield .zinputfield__textbox {
+    color: var(--rte-zdropdown-text-color);
+}
+
+#rte-comp-mount-div .zcolorpicker__maparea,
+#rte-comp-mount-div .zcolorpicker__maparea:active,
+#rte-comp-mount-div .zcolorpicker__maparea:hover {
+    border-color: var(--rte-zdropdown-border-color);
+}
+
+#rte-comp-mount-div .zcolorpicker__showhidecontainer {
+    background-color: var(--rte-zdropdown-bg-color);
+}
+
+#rte-comp-mount-div .zcolorpicker__paletteheading {
+    color: var(--rte-zdropdown-text-color) !important
+}
+
+#rte-comp-mount-div .zcolorpicker__colorpan:hover {
+    box-shadow: inset 0 0 0 1px var(--rte-zdropdown-text-color), 0 0 0 1px var(--rte-zdropdown-bg-color);
+}
+
+#rte-comp-mount-div .zdialog-title {
+    font-family: Lato-Semibold, open_sans_semi_bold, sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--rte-zdropdown-text-color);
+}
+
+#rte-comp-mount-div .zdialog__header {
+    background-color: var(--rte-zdropdown-bg-color);
+}
+
+#rte-comp-mount-div .zdialog__text {
+    color: var(--rte-zdropdown-text-color)
+}
+
+#rte-menubar .zbutton--normal,
+#rte-menubar .zbutton--normal:active,
+#rte-menubar .zbutton--normal:hover {
+    background-color: var(--rte-zdropdown-bg-color);
+    color: var(--rte-zdropdown-text-color);
+    border: 1px solid var(--rte-toolbar-border-selected-color);
+    cursor: pointer;
+}
+
+#rte-menubar .zbutton--primary,
+#rte-menubar .zbutton--primary:active,
+#rte-menubar .zbutton--primary:hover {
+    border-color: var(--rte-btn-primary-bg-color);
+    color: var(--rte-btn-primary-text-color) !important;
+    cursor: pointer;
+}
+
+#rte-menubar .zbutton--normal:active.has-focus,
+#rte-menubar .zbutton--normal.is-selected.has-focus {
+    z-index: 0 !important;
+    border: 1px solid var(--rte-toolbar-border-selected-color) !important;
+    box-shadow: none !important;
+    background-color: var(--rte-zdropdown-bg-color) !important;
+}
+
+#rte-menubar .zbutton--primary:active.has-focus,
+#rte-menubar .zbutton--primary.is-selected.has-focus {
+    z-index: 0 !important;
+    border: 1px solid var(--rte-btn-primary-border-color) !important;
+    box-shadow: none !important;
+    background-color: var(--rte-btn-primary-bg-color) !important;
+}
+
+#rte-comp-mount-div .zdialog__actiongroup .zbutton:active {
+    background-color: var(--rte-zdropdown-bg-selected-color);
+}
+
+#rte-comp-mount-div .zdialog__actiongroup .zbutton:hover {
+    background-color: var(--rte-zdropdown-bg-selected-color);
+}
+
+.rte-color-picker-drop-down {
+    border-color: var(--rte-zdropdown-border-color);
+}
+
+.rte-anchor-dropdown-btn {
+    justify-content: space-between;
+}

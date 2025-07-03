@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RichTextEditor</title>
+
+    
+    <script src="../../dist/1.4.16/js/rte.js"> </script>
+    <!-- <script type="module" src="../dist/1.2.0/js/RichTextEditor.js"> </script> -->
+    <!-- <script src="http://build.csez.zohocorpin.com/zoho/richtexteditor_library/webhost/master/Feb_01_2023/dist/1.0.0/js/rte.min.js"> </script> -->
+    <!-- <script src="https://static.stratuscdn.com/rtelibrary/1.0.0/js/rte.min.js"> </script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"> </script> -->
+    <script>
+        var PaliAceHighlighter = {
+            ace_components_static_url: "https://static.zohocdn.com/chat/source/officechat/js/snippetcomponents"
+        }        
+    </script>
+    <script src="https://static.zohocdn.com/chat/source/officechat/js/snippetcomponents/pali-ace-highlighter.js"> </script>
+    <script> 
+        PaliAceHighlighter.init()
+    </script>
+    <script src="demo.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Lato:ital,wght@0,300;0,400;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:regular,regularitalic,bold,bolditalic|Open+Sans:regular,regularitalic,bold,bolditalic">
+    <link rel="stylesheet" href="https://webfonts.zoho.com/css?family=Source+Serif+Pro:400,400i,700,700i">
+    <link rel="stylesheet" href="https://glyph.medium.com/css/e/sr/latin/e/ssr/latin/e/ssb/latin/m2-unbound-source-serif-pro.css">
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.13.1/ace.js" integrity="sha512-IQmiIneKUJhTJElpHOlsrb3jpF7r54AzhCTi7BTDLiBVg0f7mrEqWVCmOeoqKv5hDdyf3rbbxBUgYf4u3O/QcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/mode/javascript/javascript.js" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.css" rel="stylesheet"> -->
+
+    <!-- <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css"> -->
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+
+
+
+    <style>
+        .pali-variable {
+            color: #5e57b5;
+        }
+
+        .pali-keyword {
+            color: #c69060;
+        }
+
+        .pali-string {
+            color: #d10000;
+        }
+
+        .pali-comment {
+            color: #9c9b96;
+        }
+
+    </style>
+
+    <style>
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_regular.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_regular.woff) format("woff");
+            font-weight: 400;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://static.zohocdn.com/zohofonts/zohopuvi/4.0/Zoho_Puvi_Regular_Italic.woff2) format("woff2"),url(https://static.zohocdn.com/zohofonts/zohopuvi/4.0/Zoho_Puvi_Regular_Italic.woff2) format("woff");
+            font-weight: 400;
+            font-display: swap;
+            font-style: italic
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_semibold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_semibold.woff) format("woff");
+            font-weight: 600;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_bold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_bold.woff) format("woff");
+            font-weight: 700;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_extrabold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_extrabold.woff) format("woff");
+            font-weight: 900;
+            font-display: swap;
+            font-style: normal
+        }
+
+
+        body {
+            font-family: "Zoho Puvi";
+            /* background-color: #0b242f12; */
+            font-size: 13px;
+        }
+    
+        pre {
+            /* background: #f9f9f9; */
+            /* padding: 10px; */
+            border-radius: 5px;
+            margin: auto;
+        }
+        .page-header button {
+            min-height: 30px;
+        }
+
+        .ui-rich-cmt-container {
+            /* background: #ffffff; */
+            font-size: 16px;
+            /* padding: 20px; */
+            color: #000000;
+        }
+        .ui-rte-editor-div h1, .ui-rte-editor-div h2, .ui-rte-editor-div h3 {
+            margin-block-start: 0.2em;
+            margin-block-end: 0.2em;
+        }
+
+        .ui-rte-editor-div h1+p, .ui-rte-editor-div h2+p, .ui-rte-editor-div h3+p, .ui-rte-editor-div h4+p, .ui-rte-editor-div h5+p {
+            margin-top: 0px;
+        }
+
+        .ui-rte-editor-div p {
+            margin-block-start: 0.8em;
+            margin-block-end: 0.8em;
+        }
+
+        .ui-rte-editor-div a {
+            color: #0856ce;
+        }
+
+        .ui-rte-editor-div blockquote {
+            margin-inline-start: 10px;
+            margin-inline-end: 10px;
+        }
+
+
+        .cm-editor {
+            padding: 10px 0px;
+            
+        }
+
+        .ui-rte-editor-div .cm-editor {
+            font-size: 0.8rem;
+        }
+
+        .cm-scroller {
+            /* font-family: 'Lato'; */
+            font-family: Menlo, monospace;
+        }
+
+        .cm-focused {
+            outline: none !important;
+        }
+
+        .rte-toolbar {
+            /* border: 1px solid #ececec;
+            border-radius: 4px !important;
+            background: #f9f9f9 !important; */
+        }
+
+        .rte-toolbar select {
+            /* background: #f9f9f9 !important; */
+        }
+
+        .slash-command-query-text {
+            text-decoration: inherit !important;
+            color: inherit !important;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="body-container" style="">
+    <div class="page-header" style="
+    align-content: center;
+    text-align: center;
+    width: 968px;
+    margin: auto;
+    margin-bottom: 10px;
+"> 
+    </div>
+    <div id="rte-wrapper-container" class="ui-rich-cmt-container" style="margin: auto; width: 80%; min-height: 300px; max-width: 800px;">
+    </div>
+</div>
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position: absolute; z-index: -1; top: -100%; left: -100%;">
+    <symbol id="rte-icon-upload" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 17H17.01M15.6 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H8.4M12 15V4M12 4L15 7M12 4L9 7" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="rte-icon-download" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+</svg>
+
+</body>
+
+</html>

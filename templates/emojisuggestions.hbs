@@ -1,0 +1,14 @@
+{{#if hasEmoji}}
+    {{#each emoji}}
+        <div class="ui-rte-emoji ui-rte-emoji-type-2" index={{this.index}} emoji-code={{this.code}} emoji-name={{this.name}}><span>{{{this.code}}}</span><span class="ui-rte-emoji-text-type-2">{{this.name}}</span></div>
+    {{else}}
+        <div>NO_EMOJIS_FOUND</div>
+    {{/each}}
+{{/if}}
+{{#if hasZomoji}}
+    {{#each zomoji}}
+        <div class="ui-rte-emoji ui-rte-emoji-type-2" index={{this.index}} emoji-name=zomoji--{{this.name}}><span class="zw-zomoji {{this.className}}"></span><span class="ui-rte-emoji-text-type-2">{{this.name}}</span></div>
+    {{else}}
+        <div>NO_ZOMOJIS_FOUND</div>
+    {{/each}}
+{{/if}}

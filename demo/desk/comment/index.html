@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RichTextEditor</title>
+
+    
+    <script src="../../../dist/1.4.16/js/rte.js"> </script>
+    <!-- <script src="http://build.csez.zohocorpin.com/zoho/richtexteditor_library/webhost/master/Feb_01_2023/dist/1.0.0/js/rte.min.js"> </script> -->
+    <!-- <script src="https://static.stratuscdn.com/rtelibrary/1.0.0/js/rte.min.js"> </script> -->
+    <script src="index.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Lato:ital,wght@0,300;0,400;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:regular,regularitalic,bold,bolditalic|Open+Sans:regular,regularitalic,bold,bolditalic">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.13.1/ace.js" integrity="sha512-IQmiIneKUJhTJElpHOlsrb3jpF7r54AzhCTi7BTDLiBVg0f7mrEqWVCmOeoqKv5hDdyf3rbbxBUgYf4u3O/QcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.js" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/mode/javascript/javascript.js" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/codemirror@5.65.9/lib/codemirror.min.css" rel="stylesheet"> -->
+
+    <!-- <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css"> -->
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #0b242f12;
+            font-size: 13px;
+        }
+    
+        pre {
+            /* background: #f9f9f9; */
+            /* padding: 10px; */
+            border-radius: 5px;
+            margin: auto;
+        }
+        .page-header button {
+            min-height: 30px;
+        }
+    </style>
+    <style type="text/css">body{font-family:var(--zde_regular);font-size:15px;margin: 0 ;line-height:1.7;padding: 15px 20px ;background-color:#fff} 
+        body{
+            background-color : #fff;
+            color : #333;
+        }
+        .KB_New_Editor_Highlights{
+            color:  #333
+        } .formatPainter{cursor:url(//localimg.zohostatic.com/zde/static/images/format_painter.png),auto}
+    </style>
+    <link type="text/css" rel="stylesheet" href="//localcss.zohostatic.com/zde/EV4.4/css/ZohoDeskEditor.min.css">
+    <link type="text/css" rel="stylesheet" href="https://webfonts.zoho.com/css?family=Lato+2:400">
+</head>
+
+<body>
+<div class="body-container" style="padding: 20px;">
+    <div class="page-header" style="
+    align-content: center;
+    text-align: center;
+    width: 968px;
+    margin: auto;
+    margin-bottom: 10px;
+"> 
+    <div class="ui-flex-container ui-flex-center">
+        <button class="rte-btn ui-right-margin-medium" id="switch-to-full-editor"> Full Featured Editor</button> 
+        <button class="rte-btn ui-right-margin-medium" id="switch-to-mini-editor">Mini Editor (with minimal options)</button>
+        <button class="rte-btn ui-right-margin-medium" id="view-html">Generate HTML preview</button>
+        <!-- <button id="download-json"> Download JSON </button> <button id="download-html">Download HTML</button> -->
+    </div>
+    <!-- <span style="float:right">
+        <button id="download-json"> Download JSON </button> <button id="download-html">Download HTML</button>
+    </span> -->
+    </div>
+    <div id="rte-wrapper-container" class="ui-rich-cmt-container" style="border: 1px solid #e2e2e2; margin: auto; width: 80%; min-height: 300px; max-width: 968px;">
+    </div>
+</div>
+</body>
+
+</html>

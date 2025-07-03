@@ -1,0 +1,14 @@
+{{#if isEmoji}}
+    {{#each emoji}}
+        <div class="ui-flex-container ui-flex-center emoji ui-rte-emoji-type-1" index={{this.index}}><div emoji-code={{this.code}} emoji-name=emoji--{{this.name}} title={{this.name}}>{{{this.code}}}</div></div>
+    {{else}}
+        <div class="ui-rte-no-emoji">NO_EMOJIS_FOUND</div>
+    {{/each}}
+{{/if}}
+{{#if isZomoji}}
+    {{#each emoji}}
+        <div class="ui-flex-container ui-flex-center emoji ui-rte-emoji-type-1" index={{this.index}}><div class="zw-zomoji {{this.className}}" emoji-name=zomoji--{{this.name}} title={{this.name}}></div></div>
+    {{else}}
+        <div class="ui-rte-no-emoji">NO_ZOMOJIS_FOUND</div>
+    {{/each}}
+{{/if}}

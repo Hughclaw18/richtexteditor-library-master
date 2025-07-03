@@ -1,0 +1,66 @@
+<svg id="zw-emoji-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="position: absolute; z-index: -1; top: -100%; left: -100%;">
+    <symbol id="zw-emoji-icon" viewBox="0 0 24 24">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <circle style="stroke: var(--emojiStroke); fill: var(--emojiCircle);" fill-rule="nonzero" cx="12" cy="12"
+                r="9.5"></circle>
+            <path style="fill: var(--emojiFill);"
+                d="M12,14.9999997 C14.5,14.9999997 15.8092861,13.284369 16,13.5 C16.1907139,13.715631 15,16 12,16 C9,16 7.79661202,13.7203019 8,13.5 C8.20338798,13.2796981 9.5,14.9999997 12,14.9999997 Z">
+            </path>
+            <ellipse style="fill: var(--emojiFill);" fill-rule="nonzero" cx="9" cy="10.25" rx="1" ry="1.25">
+            </ellipse>
+            <ellipse style="fill: var(--emojiFill);" fill-rule="nonzero" cx="15" cy="10.25" rx="1" ry="1.25">
+            </ellipse>
+        </g>
+    </symbol>
+    <symbol id="zw-zomoji-icon" viewBox="0 0 24 24">
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <path style="fill: var(--zomojiFill)"
+                d="M12,14.9999997 C14.5,14.9999997 15.8092861,13.284369 16,13.5 C16.1907139,13.715631 15,16 12,16 C9,16 7.79661202,13.7203019 8,13.5 C8.20338798,13.2796981 9.5,14.9999997 12,14.9999997 Z">
+            </path>
+            <ellipse style="fill: var(--zomojiFill)" fill-rule="nonzero" cx="9" cy="10.25" rx="1" ry="1.25">
+            </ellipse>
+            <ellipse style="fill: var(--zomojiFill)" fill-rule="nonzero" cx="15" cy="10.25" rx="1" ry="1.25">
+            </ellipse>
+            <path style="stroke: var(--zomojiStroke)"
+                d="M10,4.5 L3.5,4.5 C2.94771525,4.5 2.5,4.94771525 2.5,5.5 L2.5,18.5 C2.5,19.0522847 2.94771525,19.5 3.5,19.5 L9.5,19.5 L9.5,19.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            <path style="stroke: var(--zomojiStroke)"
+                d="M13.5,4.5 L20.5,4.5 C21.0522847,4.5 21.5,4.94771525 21.5,5.5 L21.5,18.5 C21.5,19.0522847 21.0522847,19.5 20.5,19.5 L14.0351838,19.5 C13.7008306,19.5 13.3885992,19.6671011 13.2031335,19.9452998 L11.5,22.5 L11.5,22.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </symbol>
+</svg>
+<div id="emoji-dropdown-container"
+    class="ui-rte-emoji-dropdown {{#if searchBox}}ui-rte-emoji-dropdown-type-1{{else}}ui-rte-emoji-dropdown-type-2{{/if}}">
+    {{#if searchBox}}
+    <div id="search-container" class="ui-rte-emoji-search-container">
+        <div class="zbutton__icon ui-sprit-fast ui-icon-search-sm"></div>
+        <input id="search-box"
+            style="width: calc(88% - 20px);border: none;background: none;height: 30px;position: absolute;font-size: 14px;"
+            type="text" placeholder="Search">
+    </div>
+    <div id="emoji-container" class="ui-flex-container ui-rte-emoji-container-type-1 ui-pos-rel"
+        style="{{#if hasTabs}} height:74% {{else}} height:84% {{/if}}">
+        <div id="unicode-cont" class="ui-flex-shrink-no ui-rte-emoji-cont ui-h-100 ui-right-margin-medium"></div>
+        <div id="zomoji-cont" class="ui-flex-shrink-no ui-rte-emoji-cont ui-h-100"></div>
+    </div>
+    {{else}}
+    <div id="combined-container" class="ui-rte-emoji-container-type-2" style="height:100%"></div>
+    {{/if}}
+    {{#if hasTabs}}
+    <div id="tabContainer" class="ui-flex-container ui-rte-emoji-tab-container">
+        <span tabName="unicode" title="EMOJIS" class="ui-flex-container ui-flex-center ui-rte-emoji-tab emoji-icon ui-rte-tab-sel">
+            <svg width="24" height="24">
+                <use xlink:href="#zw-emoji-icon"></use>
+            </svg>
+        </span>
+        <span tabName="zomoji" title="ZOMOJIS" class="ui-flex-container ui-flex-center ui-rte-emoji-tab zomoji-icon">
+            <svg width="24" height="24">
+                <use xlink:href="#zw-zomoji-icon"></use>
+            </svg>
+        </span>
+        <div class="ui-rte-emoji-tab-active ui-pos-abs"></div>
+    </div>
+    {{/if}}
+</div>

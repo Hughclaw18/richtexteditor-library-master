@@ -1,0 +1,12 @@
+{
+    "_purge": [
+        "1.4.16/*"
+    ],
+
+    "_cache": {
+        "_commons": {
+            "max_age": 7776000,
+            "immutable": "true"
+        }
+    }
+}

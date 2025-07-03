@@ -1,0 +1,1 @@
+export { getSuggestionsPlugin } from "./SuggestionsPlugin"

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window._RTE_ = {
+            CSS: false
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src = "../../dist/1.4.16/js/rte.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            //create shadowDom
+            let shadowEle = document.getElementById("temp").attachShadow({mode: "open"})
+            let div = document.createElement('div')
+            div.id = 'container-for-rte'
+            div.style = 'width: 58%; margin: auto; border: 1px solid #e2e2e2;'
+            // alm-issue-testing - imageContextMenu, LinkContextMenu and rightClickContextMenu alone will cause issues once the below line is uncommented
+            
+            // The issue:
+            // When you right click on a table and scroll within the editor, the right context menu stays absolute on that position itself, irrespective of the scroll
+            // so the right context menu does not scroll along with the editor, but when you scroll outside the editor, the context menu moves along with the editor
+            // When you click on an image/link and scroll within the editor, the context menu stays absolute on that position itself, irrespective of the scroll
+            // so the context menu does not scroll along with the editor, but when you scroll outside the editor the menu gets closed(which is the expected behaviour)
+            
+            // The above 2 issues does not gets reproduced when the editor is placed outside the shadowDOM, you can check this behaviour in the normal editor
+            // in demo.js file, by launching the corresponding index.html file in the browser by running live server
+            
+            // div.style = 'width: 58%; margin: auto; border: 1px solid #e2e2e2; height: 5000px; max-height: 1000px; overflow-y: auto; position: relative;'
+            shadowEle.append(div)
+
+            // 2nd div inside same shadowroot
+            // let div2 = document.createElement('div')
+            // div2.id = 'container-for-rte-2'
+            // div2.style = 'width: 58%; margin: auto; border: 1px solid #e2e2e2;'
+            // shadowEle.append(div2)
+
+            //load css
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = "../../dist/1.4.16/css/rte.css";
+            document.getElementById("temp").shadowRoot.appendChild(link)
+
+            // let rteScript = document.createElement('script')
+            // rteScript.setAttribute("src", "../../dist/1.4.16/js/rte.js")
+            // setTimeout(()=> {
+            //     document.getElementById("temp").shadowRoot.appendChild(rteScript)
+            // }, 100)
+
+            // second shadowroot
+            //create shadowDom
+            let shadowEle2 = document.getElementById("temp2").attachShadow({mode: "open"})
+            let div2 = document.createElement('div')
+            div2.id = 'container-for-rte-2'
+            div2.style = 'width: 58%; margin: auto; border: 1px solid #e2e2e2;'
+            // alm-issue-testing
+            // div2.style = 'width: 58%; margin: auto; border: 1px solid #e2e2e2; height: 5000px; max-height: 1000px; overflow-y: auto; position: relative;'
+            shadowEle2.append(div2)
+
+            //load css
+            var link2 = document.createElement('link');
+            link2.rel = 'stylesheet';
+            link2.type = 'text/css';
+            link2.href = "../../dist/1.4.16/css/rte.css";
+            document.getElementById("temp2").shadowRoot.appendChild(link2)
+
+            // let rteScript2 = document.createElement('script')
+            // rteScript2.setAttribute("src", "../../dist/1.4.16/js/rte.js")
+            // setTimeout(()=> {
+            //     document.getElementById("temp").shadowRoot.appendChild(rteScript2)
+            // }, 100)
+
+            // load index file
+            var head = document.getElementsByTagName("head")[0]
+            setTimeout(()=>{
+                var script1 = document.createElement("script")
+                script1.src = "./index.js"
+                head.appendChild(script1)
+            }, 100)
+
+        })
+
+        // setTimeout(()=>{
+        //     let shadowEle = document.getElementById("temp").attachShadow({mode: "open"})
+        //     let div = document.createElement('div')
+        //     div.id = 'container-for-rte'
+        //     shadowEle.append(div)
+        // }, 100)
+    </script>    
+    <!-- <script src="index.js"></script> -->
+</head>
+<body>
+    <div>Above rte</div>
+    <!-- <div style ="width: 800px; height: 1000px;">Sample div 1</div> -->
+    <div id = "temp"></div>
+    <div id = "temp2"></div>
+    <!-- <div style ="width: 800px; height: 1000px;">Sample div 2</div> -->
+    <div>Below rte</div>
+</body>
+</html>

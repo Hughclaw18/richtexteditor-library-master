@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RichTextEditor</title>
+
+    
+    <script src="../../dist/1.4.16/js/rte.js"> </script>
+    <script src="repositorydemo.js"></script>
+
+    <!-- <style>
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_regular.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_regular.woff) format("woff");
+            font-weight: 400;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://static.zohocdn.com/zohofonts/zohopuvi/4.0/Zoho_Puvi_Regular_Italic.woff2) format("woff2"),url(https://static.zohocdn.com/zohofonts/zohopuvi/4.0/Zoho_Puvi_Regular_Italic.woff2) format("woff");
+            font-weight: 400;
+            font-display: swap;
+            font-style: italic
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_semibold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_semibold.woff) format("woff");
+            font-weight: 600;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_bold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_bold.woff) format("woff");
+            font-weight: 700;
+            font-display: swap;
+            font-style: normal
+        }
+
+        @font-face {
+            font-family: Zoho Puvi;
+            src: url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_extrabold.woff2) format("woff2"),url(https://fonts.zohostatic.com/zohopuvi/3.0/zoho_puvi_extrabold.woff) format("woff");
+            font-weight: 900;
+            font-display: swap;
+            font-style: normal
+        }
+
+
+        body {
+            font-family: "Zoho Puvi";
+            /* background-color: #0b242f12; */
+            font-size: 13px;
+        }
+    
+        pre {
+            /* background: #f9f9f9; */
+            /* padding: 10px; */
+            border-radius: 5px;
+            margin: auto;
+        }
+        .page-header button {
+            min-height: 30px;
+        }
+
+        .ui-rte-editor-div h1, .ui-rte-editor-div h2, .ui-rte-editor-div h3 {
+            margin-block-start: 0.2em;
+            margin-block-end: 0.2em;
+        }
+
+        .ui-rte-editor-div h1+p, .ui-rte-editor-div h2+p, .ui-rte-editor-div h3+p, .ui-rte-editor-div h4+p, .ui-rte-editor-div h5+p {
+            margin-top: 0px;
+        }
+
+        .ui-rte-editor-div p {
+            margin-block-start: 0.8em;
+            margin-block-end: 0.8em;
+        }
+
+        .ui-rte-editor-div a {
+            color: #0856ce;
+        }
+
+        .ui-rte-editor-div blockquote {
+            margin-inline-start: 10px;
+            margin-inline-end: 10px;
+        }
+
+
+        .cm-editor {
+            padding: 10px 0px;
+            
+        }
+
+        .ui-rte-editor-div .cm-editor {
+            font-size: 0.8rem;
+        }
+
+        .cm-scroller {
+            /* font-family: 'Lato'; */
+            font-family: Menlo, monospace;
+        }
+
+        .cm-focused {
+            outline: none !important;
+        }
+
+        .rte-toolbar {
+            /* border: 1px solid #ececec;
+            border-radius: 4px !important;
+            background: #f9f9f9 !important; */
+        }
+
+        .rte-toolbar select {
+            /* background: #f9f9f9 !important; */
+        }
+
+        .slash-command-query-text {
+            text-decoration: inherit !important;
+            color: inherit !important;
+        }
+
+    </style> -->
+
+    <style>
+        .cm-scroller {
+            /* font-family: 'Lato'; */
+            font-family: Menlo, monospace;
+        }
+
+        .cm-focused {
+            outline: none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="body-container" style="">
+    <div class="page-header" style="
+    align-content: center;
+    text-align: center;
+    width: 968px;
+    margin: auto;
+    margin-bottom: 10px;
+"> 
+    <button id="rte-mode">RTE Mode</button>
+    <button id="md-mode">Markdown Mode</button>
+
+    </div>
+    <div id="rte-wrapper-container" class="ui-rich-cmt-container" style="margin: auto; width: 80%; min-height: 300px; max-width: 800px;">
+    </div>
+</div>
+</body>
+
+</html>

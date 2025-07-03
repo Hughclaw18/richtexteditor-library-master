@@ -1,0 +1,17 @@
+{
+  "unclassifiedComponents": [
+    "menu",
+    "button",
+    "tooltip",
+    "splitbutton",
+    "menubutton",
+    "popover",
+    "combobox",
+    "colorpicker",
+    "dialog"
+  ],
+  "fileName": "components",
+  "excludeComponentsHTMLDOMAPI": true,
+  "namespace": "RTEComponents",
+  "HTMLDOMLibraryNamespace": "$rteZc"
+}
