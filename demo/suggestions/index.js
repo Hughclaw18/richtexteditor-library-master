@@ -19,20 +19,177 @@ var options = {
 
     // document elements to include
     features: [
-        'hr', // {name: 'hr'}, // horizontal line
-        {name: 'images', getImageUrl: function(file, blob, callback, errorCallback) { setTimeout(()=>{
-            // errorCallback("not supported format")
-            callback(blob)
-        }, 100)}}, // inline-images
-        {name: 'mentions', getSuggestions: getAtmentionsSuggestions()}, // @mentions
-        {name: 'emoji', hasZomoji: false},
-        'list', // {name: 'list'}, // numbered/bullet lists
-        'tables', // {name: 'tables'}, // tables
-        'code_block', // {name: 'code_block'}
+        'hr', // Horizontal rule
+        {
+            name: 'images',
+            getImageUrl: function(file, blob, callback, errorCallback) {
+                setTimeout(() => {
+                    // errorCallback("not supported format");
+                    callback(blob);
+                }, 100);
+            }
+        },
+        {
+            name: 'mentions',
+            getSuggestions: getAtmentionsSuggestions() // @mentions
+        },
+        {
+            name: 'emoji',
+            hasZomoji: false
+        },
+        'list',
+        'tables',
+        'code_block',
         'datafield',
         {
-            name: 'suggestions',//mandatory
-            trigger: ['/'],
+            name: 'suggestions',
+            trigger: ['/','@'],
+            allowSpace: false,
+            delay: 100,
+            maxNoOfSuggestions: 6,
+            activeClass: 'suggestion-item-active',
+            suggestionTextClass: 'prosemirror-suggestion',
+
+            getSuggestions: function(state, text, cb, view) {
+                const suggestions = getSlashFormattingSuggestions();
+                const filtered = suggestions.filter(s =>
+                    s.name.toLowerCase().startsWith(text.toLowerCase())
+                );
+                cb && cb(filtered);
+            },
+
+            getSuggestionsHTML: function(suggestions) {
+                /*
+                let el = `<div class="slash-suggestion-dropdown">`;
+                suggestions.forEach(item => {
+                    el += `
+                        <div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
+                                <span class="name" id="suggestion-text">${item.name}</span>                                
+                        </div>`;      
+                });
+                el += `</div>`;
+                return el;
+                */
+                // let el = `<div class="slash-suggestion-dropdown">`;
+                // suggestions.forEach(item => {
+                //     el += `
+                //         <div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
+                            
+                //             <div class="" style="float:left;padding:3px;margin-top:5px">
+                //             <div style="" class="">
+                //                 <span class="name" id="suggestion-text">${item.name}</span>                                
+                //                 <div class="">
+                //                 <span class="desc">${item.description || ''}&nbsp;</span>
+                //                 </div>
+                //             </div>
+                //             </div>
+                //         </div>`;      
+                // });
+                // el += `</div>`;
+                // return el;
+               
+
+                let el = `<div class="ui-rte-suggestion-item-list ui-rte-atmetion-suggestion-container zdc_shareautocompletedialog suggestion-dropdown-list">`
+                suggestions.forEach((suggestion)=>{
+                    el += `<div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
+                                <div class="" style="float:left;padding:3px;margin-top:5px">
+                                <div style="" class="">
+                                    <span
+                                        class="ui-rte-cmnt-atmention-name"
+                                        id="full-name"
+                                    >${suggestion.name}</span>
+                                </div>
+                                <div class="">
+                                    <span class="graytxt" id="graytxt">${suggestion.description}&nbsp;</span>
+                                </div>
+                                </div>
+                            </div>`
+                })
+                el += `</div>`
+                return el
+
+                // // can provide html dom element also inorder to bind event listeners as per their use case
+                // var div = document.createElement('div')
+                // var innerDiv = document.createElement('div')
+                // innerDiv.innerText = 'options'
+                // div.appendChild(innerDiv)
+                // div.className =  'suggestion-dropdown-list'
+
+                // innerDiv.addEventListener('mouseenter', function(e) { 
+                //     console.log('options clicked')
+                // })
+                // 
+                // return div
+                /* should return a 
+                    <div class="suggestion-dropdown-list">
+                        <div class="suggestion-dropdown-list-item"></div>
+                        <div class="suggestion-dropdown-list-item"></div>
+                        <div class="suggestion-dropdown-list-item"></div>
+                    </div>
+                */ 
+            },
+            onSelect: function(view, item, state) {
+                const { from, to } = state.range;
+                const matchedText = view.editorView.state.doc.textBetween(from, to);
+                const split = matchedText.trim().split(/\s+/);
+                const commandText = split[0]; // e.g., "/bold"
+                const contentToFormat = split.slice(1).join(' '); // e.g., "this is bold"
+
+                // Remove the matched command
+                view.editorView.dispatch(view.editorView.state.tr.delete(from, to));
+
+                if (contentToFormat.length > 0) {
+                    // Insert content and select it
+                    view.editorView.dispatch(
+                        view.editorView.state.tr.insertText(contentToFormat, from)
+                    );
+                    const textEnd = from + contentToFormat.length;
+                    view.setSelection(from, textEnd);
+                } else {
+                    // No content — just place cursor and apply format to current location
+                    view.setSelection(from, from);
+                }
+
+                // Apply formatting command
+                switch (item.command) {
+                    case 'strong':
+                        view.commands.toggleBold();
+                        break;
+                    case 'em':
+                        view.commands.toggleItalic();
+                        break;
+                    case 'underline':
+                        view.commands.toggleUnderline();
+                        break;
+                    case 'strikeThrough':
+                        view.commands.toggleStrikethrough();
+                        break;
+                    case 'toggleHeading1':
+                        view.commands.setHeading("h1");
+                        break;
+                    case 'toggleHeading2':
+                        view.commands.setHeading("h2");
+                        break;
+                    case 'toggleUL':
+                        view.commands.toggleUL();
+                        break;
+                    case 'toggleOL':
+                        view.commands.toggleOL();
+                        break;
+                    default:
+                        console.warn('Unsupported slash command:', item.command);
+                }
+
+                view.editorView.focus();
+            },
+      
+            activeClass: 'suggestion-item-active',
+            suggestionTextClass: 'prosemirror-suggestion',
+            maxNoOfSuggestions: 6,
+            delay: 1000,
+            /*
+           +// name: 'suggestions',//mandatory
+            // trigger: ['/'],
             // trigger: function(text, view, selection) {
 
             //     var regex = /[\w-\+]*$/
@@ -59,28 +216,28 @@ var options = {
             //         }
             //     } 
             // },
-            allowSpace: true, // allow space inbetween query
-            getSuggestions: function(state, text, cb, view) {
+            // allowSpace: true, // allow space inbetween query
+            // getSuggestions: function(state, text, cb, view) {
                 // console.log("suggestions")
                 // console.log(state)
                 // console.log(text)
                 // console.log(view)
-                var suggestions = getsuggestions();
-                var newSuggestions = [];
-                for (var index = 0; index < suggestions.length; index++) {
-                    var suggestion = suggestions[index];
-                    var suggestionName = suggestion.fullname;
-                    var suggestionMailId = suggestion.emailid;
-                    var textSize = text.length;
-                    var nameStartsWithText =
-                        text.toUpperCase() ===
-                        suggestionName.slice(0, textSize).toUpperCase();
-                    var mailIdStartsWithText =
-                        text.toUpperCase() ===
-                        suggestionMailId.slice(0, textSize).toUpperCase();
-                    if (nameStartsWithText || mailIdStartsWithText) {
-                        newSuggestions.push(suggestion);
-                    }
+               // var suggestions = getsuggestions();
+                //var newSuggestions = [];
+                //for (var index = 0; index < suggestions.length; index++) {
+                //    var suggestion = suggestions[index];
+                //    var suggestionName = suggestion.fullname;
+                //    var suggestionMailId = suggestion.emailid;
+                //    var textSize = text.length;
+                //    var nameStartsWithText =
+                //       text.toUpperCase() ===
+                //        suggestionName.slice(0, textSize).toUpperCase();
+                //    var mailIdStartsWithText =
+                //        text.toUpperCase() ===
+                //        suggestionMailId.slice(0, textSize).toUpperCase();
+                //    if (nameStartsWithText || mailIdStartsWithText) {
+                //        newSuggestions.push(suggestion);
+                //   }
                 }
                 cb && cb(newSuggestions);
             },//mandatory
@@ -140,15 +297,15 @@ var options = {
                         <div class="suggestion-dropdown-list-item"></div>
                         <div class="suggestion-dropdown-list-item"></div>
                     </div>
-                */ 
-            },
+                
+            }, */
             placeDropdown(el, offset) {
                 // append el wherver you want
                 // set style whatever you want
                 // TODO: think about outsourcing this positioning logic as options
                 zwRteView.dom.append(el);
 
-                el.style.display = 'block'; // no i18n
+                el.style.display = 'flex'; // no i18n
                 el.style.position = 'fixed'; // no i18n
                 el.style.left = '';
                 el.style.right = '';
@@ -173,7 +330,7 @@ var options = {
                 }
                 el.style.top = top + 'px'; // no i18n
             },
-            onSelect: function(view, item, state) {
+            /* onSelect: function(view, item, state) {
                 // console.log("onSelect")
                 // console.log(view)
                 // console.log(item)
@@ -183,8 +340,9 @@ var options = {
             activeClass: 'suggestion-item-active',
             suggestionTextClass: 'prosemirror-suggestion',
             maxNoOfSuggestions: 6,
-            delay: 200
-        }
+            delay: 200 */
+        },
+
         // {
         //     name: 'suggestions',//mandatory
         //     trigger: ['/', '?', '{', /(^|\s|\0)\*\*([\w-\+]+[.]?\s?[\w-\+]*)$/, /[\w-\+]*$/],
@@ -432,6 +590,20 @@ function getAtmentionsSuggestions() {
         }
     };
 }
+
+function getSlashFormattingSuggestions() {
+    return [
+        { id: 'bold', name: 'Bold', description: 'Make text bold', command: 'strong', commandMap: 'strong' },
+        { id: 'italic', name: 'Italic', description: 'Italicize text', command: 'em', commandMap: 'em' },
+        { id: 'underline', name: 'Underline', description: 'Underline text', command: 'underline', commandMap: 'underline' },
+        { id: 'strike', name: 'Strikethrough', description: 'Strikethrough text', command: 'strikeThrough', commandMap:'strikeThrough' },
+        { id: 'h1', name: 'Heading 1', description: 'Apply heading 1', command: 'toggleHeading1', size: 16 },
+        { id: 'h2', name: 'Heading 2', description: 'Apply heading 2', command: 'toggleHeading2', size: 10 },
+        { id: 'ul', name: 'Bullet List', description: 'Insert bulleted list', command: 'toggleUL' },
+        { id: 'ol', name: 'Numbered List', description: 'Insert numbered list', command: 'toggleOL' }
+    ];
+}
+
 
 function getsuggestions() {
     return [
