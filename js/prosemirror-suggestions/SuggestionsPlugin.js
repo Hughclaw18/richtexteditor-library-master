@@ -3,7 +3,7 @@
 import { Plugin } from 'prosemirror-state'; // no i18n
 import { Decoration, DecorationSet } from 'prosemirror-view'; // no i18n
 import { debounce } from '../RTEPluginUtils'; //no i18n
-
+import { getsuggestions } from './utils.js'
 const nonTextLeafNodeReplacer = '\0';
 const showListDebounce = debounce();
 const externalScrollDebounce = debounce();
@@ -169,7 +169,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
     // default options
     var defaultOpts = {
         name: "suggestions",
-        trigger: ['/'], // if trigger is an array then use default getMatch() function else if it is a function then use this function as getMatch() function
+        trigger: ['@'], // if trigger is an array then use default getMatch() function else if it is a function then use this function as getMatch() function
         allowSpace: true,
         customDropdown: false,//if customDropdown is set to true then getSuggestions(), getSuggestionsHTML(), onSelect() functions need not be provided by the user, we'll just make sure that whenever there is a match we'll call the function onMatch() which shld inturn handle the functions such as filtering the suggestions , designing the dropwdown, attaching the event listeners to each dropdown item, etc.
         activeClass: 'suggestion-dropdown-active', // no i18n

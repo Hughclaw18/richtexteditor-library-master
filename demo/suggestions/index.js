@@ -1,6 +1,6 @@
 // construct options
 var options = {
-    content: getContent(),
+    //content: getContent(),
     menubar: {
         position: 'top',
         customMenuItems: [],
@@ -9,7 +9,7 @@ var options = {
 
 
     // formatting options to include
-    formats: ["strong", "em", "underline", {name: "link", autodetect: false}, "strikeThrough", "align", "fontSize", "fontFamily", "fontColor", "highlight", "script", "lineHeight", "direction", "headings", "clearFormatting"],
+    formats: [ "em", "underline","insertTable", {name: "link", autodetect: false}, "strikeThrough", "align", "fontSize", "fontFamily", "fontColor", "highlight", "script", "lineHeight", "direction", "headings", "clearFormatting"],
     // here put fontSize first followed by fontFamily because in cases of applying heading we need fontSize mark to be applied first and then only we need to apply fontFamily mark else for every change in fontFamily mark the fontSize mark will be applied.
     
     // put highlight mark after fontSize mark because backgroundColor(that is highlight mark) needs to be applied on span tag based on font-size
@@ -41,9 +41,128 @@ var options = {
         'tables',
         'code_block',
         'datafield',
+        'slashCommands',
+        // {
+        //     name: 'slashCommands',
+        //     trigger: ['/'],
+        //     allowSpace: false,
+        //     delay: 100,
+        //     //maxNoOfSuggestions: 6,
+        //     activeClass: 'suggestion-item-active',
+        //     suggestionTextClass: 'prosemirror-suggestion',
+
+        //     getSlashCommands: function(state, text, cb, view) {
+        //         const slashCommandsuggestions = getSlashFormattingSuggestions();
+        //         const filtered = slashCommandsuggestions.filter(s =>
+        //             s.name.toLowerCase().startsWith(text.toLowerCase()) ||
+        //             (s.aliases && s.aliases.some(alias => alias.toLowerCase().startsWith(text.toLowerCase())))
+        //         );
+        //         cb && cb(filtered);
+        //     },
+
+        //     getSlashCommandsHTML: function(slashCommandsuggestions) {
+        //         if(slashCommandsuggestions.length === 0) {
+        //             return '';
+        //         }
+        //         let el = `<div class="ui-rte-suggestion-item-list ui-rte-atmetion-suggestion-container zdc_shareautocompletedialog suggestion-dropdown-list">`
+        //         slashCommandsuggestions.forEach((suggestion)=>{ 
+        //             el += `<div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
+        //                         <div class="" style="float:left;padding:3px;margin-top:5px">
+        //                         <div style="" class="">
+        //                             <span
+        //                                 class="ui-rte-cmnt-atmention-name"
+        //                                 id="full-name"
+        //                             >${suggestion.name}</span>
+        //                         </div>
+        //                         <div class="">
+        //                             <span class="graytxt" id="graytxt">${suggestion.description}&nbsp;</span>
+        //                         </div>
+        //                         </div>
+        //                     </div>`
+        //         })
+        //         el += `</div>`
+        //         return el
+
+        //         // // can provide html dom element also inorder to bind event listeners as per their use case
+        //         // var div = document.createElement('div')
+        //         // var innerDiv = document.createElement('div')
+        //         // innerDiv.innerText = 'options'
+        //         // div.appendChild(innerDiv)
+        //         // div.className =  'suggestion-dropdown-list'
+
+        //         // innerDiv.addEventListener('mouseenter', function(e) { 
+        //         //     console.log('options clicked')
+        //         // })
+        //         // 
+        //         // return div
+               
+        //     },
+        //     onSelect: function(view, item, state) {
+        //         const { from, to } = state.range;
+        //         const matchedText = view.editorView.state.doc.textBetween(from, to);
+        //         const split = matchedText.trim().split(/\s+/);
+        //         const commandText = split[0]; // e.g., "/bold"
+        //         const contentToFormat = split.slice(1).join(' '); // e.g., "this is bold"
+
+        //         // Remove the matched command
+        //         view.editorView.dispatch(view.editorView.state.tr.delete(from, to));
+
+        //         if (contentToFormat.length > 0) {
+        //             // Insert content and select it
+        //             view.editorView.dispatch(
+        //                 view.editorView.state.tr.insertText(contentToFormat, from)
+        //             );
+        //             const textEnd = from + contentToFormat.length;
+        //             view.setSelection(from, textEnd);
+        //         } else {
+        //             // No content — just place cursor and apply format to current location
+        //             view.setSelection(from, from);
+        //         }
+        //         view.commands[item.command]()
+        //         view.editorView.focus();
+        //     },
+      
+        //     activeClass: 'suggestion-item-active',
+        //     suggestionTextClass: 'prosemirror-suggestion',
+        //     maxNoOfSuggestions: 6,
+        //     delay: 1000,
+            
+        //     placeDropdown(el, offset) {
+        //         // append el wherver you want
+        //         // set style whatever you want
+        //         // TODO: think about outsourcing this positioning logic as options
+        //         zwRteView.dom.append(el);
+
+        //         el.style.display = 'flex'; // no i18n
+        //         el.style.position = 'fixed'; // no i18n
+        //         el.style.left = '';
+        //         el.style.right = '';
+        //         // el.style.height = '150px' // inorder to test for scrolling inside the dropdown div uncomment this
+        //         // el.style.overflowY = 'auto'
+        //         var elWidth = el.offsetWidth;
+        //         var docWidth = document.documentElement.clientWidth;
+        //         var docHeight = document.documentElement.clientHeight;
+
+        //         // adjust left/right
+        //         if (offset.left + elWidth + 1 < docWidth) {
+        //             el.style.left = offset.left + 'px'; // no i18n
+        //         } else {
+        //             el.style.right = docWidth - offset.right + 'px'; // no i18n
+        //         }
+
+        //         // adjust top/bottom
+        //         if (offset.bottom + el.scrollHeight < docHeight) {
+        //             var top = offset.bottom;
+        //         } else {
+        //             var top = offset.top - el.scrollHeight;
+        //         }
+        //         el.style.top = top + 'px'; // no i18n
+        //     },
+          
+        // },
         {
             name: 'suggestions',
-            trigger: ['/','@'],
+            trigger: ['@'],
             allowSpace: false,
             delay: 100,
             maxNoOfSuggestions: 6,
@@ -51,7 +170,7 @@ var options = {
             suggestionTextClass: 'prosemirror-suggestion',
 
             getSuggestions: function(state, text, cb, view) {
-                const suggestions = getSlashFormattingSuggestions();
+                const suggestions = getsuggestions();
                 const filtered = suggestions.filter(s =>
                     s.name.toLowerCase().startsWith(text.toLowerCase())
                 );
@@ -59,36 +178,7 @@ var options = {
             },
 
             getSuggestionsHTML: function(suggestions) {
-                /*
-                let el = `<div class="slash-suggestion-dropdown">`;
-                suggestions.forEach(item => {
-                    el += `
-                        <div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
-                                <span class="name" id="suggestion-text">${item.name}</span>                                
-                        </div>`;      
-                });
-                el += `</div>`;
-                return el;
-                */
-                // let el = `<div class="slash-suggestion-dropdown">`;
-                // suggestions.forEach(item => {
-                //     el += `
-                //         <div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
-                            
-                //             <div class="" style="float:left;padding:3px;margin-top:5px">
-                //             <div style="" class="">
-                //                 <span class="name" id="suggestion-text">${item.name}</span>                                
-                //                 <div class="">
-                //                 <span class="desc">${item.description || ''}&nbsp;</span>
-                //                 </div>
-                //             </div>
-                //             </div>
-                //         </div>`;      
-                // });
-                // el += `</div>`;
-                // return el;
-               
-
+                       
                 let el = `<div class="ui-rte-suggestion-item-list ui-rte-atmetion-suggestion-container zdc_shareautocompletedialog suggestion-dropdown-list">`
                 suggestions.forEach((suggestion)=>{
                     el += `<div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
@@ -97,10 +187,10 @@ var options = {
                                     <span
                                         class="ui-rte-cmnt-atmention-name"
                                         id="full-name"
-                                    >${suggestion.name}</span>
+                                    >${suggestion.fullname}</span>
                                 </div>
                                 <div class="">
-                                    <span class="graytxt" id="graytxt">${suggestion.description}&nbsp;</span>
+                                    <span class="graytxt" id="graytxt">${suggestion.emailid}&nbsp;</span>
                                 </div>
                                 </div>
                             </div>`
@@ -590,22 +680,107 @@ function getAtmentionsSuggestions() {
         }
     };
 }
+// function getSlashFormattingSuggestions(){
+//     return [
+//         // Basic Text Formatting
+//         { id: 'bold', name: 'Bold', description: 'Make text bold', command: 'toggleBold', aliases: ['strong', 'b'] },
+//         { id: 'italic', name: 'Italicize text', description: 'Italicize text', command: 'toggleItalic', aliases: ['em', 'i'] }, // Corrected: 'em' -> 'toggleItalic'
+//         { id: 'underline', name: 'Underline', description: 'Underline text', command: 'toggleUnderline', aliases: ['ul', 'u'] }, // Corrected: 'underline' -> 'toggleUnderline'
+//         { id: 'strike', name: 'Strikethrough', description: 'Strikethrough text', command: 'toggleStrikethrough', aliases: ['strikethrough', 's'] }, // Corrected: 'strikeThrough' -> 'toggleStrikethrough'
+//         { id: 'highlight', name: 'Highlight', description: 'Highlight text', command: 'toggleHighlight', aliases: ['mark', 'yellow'] },
+//         { id: 'inlinequote', name: 'Inline Quote', description: 'Apply inline quote formatting', command: 'toggleInlineQuote', aliases: ['quote'] },
+//         { id: 'clearformatting', name: 'Clear Formatting', description: 'Remove all formatting', command: 'clearFormatting', aliases: ['clear', 'removeformat'] },
 
-function getSlashFormattingSuggestions() {
-    return [
-        { id: 'bold', name: 'Bold', description: 'Make text bold', command: 'strong', commandMap: 'strong' },
-        { id: 'italic', name: 'Italic', description: 'Italicize text', command: 'em', commandMap: 'em' },
-        { id: 'underline', name: 'Underline', description: 'Underline text', command: 'underline', commandMap: 'underline' },
-        { id: 'strike', name: 'Strikethrough', description: 'Strikethrough text', command: 'strikeThrough', commandMap:'strikeThrough' },
-        { id: 'h1', name: 'Heading 1', description: 'Apply heading 1', command: 'toggleHeading1', size: 16 },
-        { id: 'h2', name: 'Heading 2', description: 'Apply heading 2', command: 'toggleHeading2', size: 10 },
-        { id: 'ul', name: 'Bullet List', description: 'Insert bulleted list', command: 'toggleUL' },
-        { id: 'ol', name: 'Numbered List', description: 'Insert numbered list', command: 'toggleOL' }
-    ];
-}
+//         // Headings & Paragraphs
+//         // Note: For 'toggleHeading1' and 'toggleHeading2', RTECommands only has 'setHeading'.
+//         // If these are intended to be direct calls, setHeading would need arguments ('h1', 'h2').
+//         // The 'setHeading' command below has 'argsRequired: true'.
+//         { id: 'h1', name: 'Heading 1', description: 'Apply heading 1 style', command: 'setHeading', size: 16, aliases: ['h1', 'heading1'] }, // Changed to setHeading, will need arg passing if used directly
+//         { id: 'h2', name: 'Heading 2', description: 'Apply heading 2 style', command: 'setHeading', size: 14, aliases: ['h2', 'heading2'] }, // Changed to setHeading, will need arg passing if used directly
+//         { id: 'setheading', name: 'Set Heading', description: 'Apply a specific heading style (e.g., h3, h4)', command: 'setHeading', argsRequired: true, aliases: ['heading', 'h3', 'h4', 'h5', 'h6'] },
 
 
-function getsuggestions() {
+//         // Lists
+//         { id: 'ul', name: 'Bullet List', description: 'Insert bulleted list', command: 'toggleUL', aliases: ['ul', 'bulletlist', 'unorderedlist'] },
+//         { id: 'ol', name: 'Numbered List', description: 'Insert numbered list', command: 'toggleOL', aliases: ['ol', 'numberedlist', 'orderedlist'] },
+//         { id: 'checklist', name: 'Checklist', description: 'Insert a checklist', command: 'toggleCheckList', aliases: ['checkbox', 'tasklist'] },
+//         { id: 'increaseindent', name: 'Increase Indent', description: 'Increase paragraph indentation', command: 'increaseIndent', aliases: ['indent', 'tab'] },
+//         { id: 'decreaseindent', name: 'Decrease Indent', description: 'Decrease paragraph indentation', command: 'decreaseIndent', aliases: ['outdent', 'shift-tab'] },
+
+//         // Links & Anchors
+//         { id: 'addlink', name: 'Add Link', description: 'Insert a hyperlink', command: 'addLink', argsRequired: true, aliases: ['link', 'a'] },
+//         { id: 'addlinkwithtext', name: 'Add Link With Text', description: 'Insert a hyperlink with specific text', command: 'addLinkWithText', argsRequired: true, aliases: ['linktext'] },
+//         { id: 'removelink', name: 'Remove Link', description: 'Remove a hyperlink', command: 'removeLink', aliases: ['unlink'] },
+//         { id: 'addanchor', name: 'Add Anchor', description: 'Insert an anchor (bookmark)', command: 'addAnchor', argsRequired: true, aliases: ['anchor', 'bookmark'] },
+
+//         // Alignment
+//         { id: 'alignpara', name: 'Align Paragraph', description: 'Change paragraph alignment', command: 'alignPara', argsRequired: true, aliases: ['align', 'textalign'] },
+
+//         // Images
+//         // Note: 'insertImage' here will be called without args unless handled specifically in onSelect
+//         { id: 'insertimage', name: 'Insert Image', description: 'Insert an image', command: 'insertImage', argsRequired: true, aliases: ['img', 'picture'] },
+//         { id: 'updateimagefit', name: 'Update Image Fit', description: 'Adjust image fit (e.g., cover, contain)', command: 'updateImageFit', argsRequired: true },
+
+//         // Videos & Embeds
+//         { id: 'insertvideo', name: 'Insert Video', description: 'Insert a video', command: 'insertVideo', argsRequired: true, aliases: ['video', 'youtube', 'vimeo'] },
+//         { id: 'insertembed', name: 'Insert Embed', description: 'Insert an embed (e.g., iframe)', command: 'insertEmbed', argsRequired: true, aliases: ['embed', 'iframe'] },
+//         { id: 'editembed', name: 'Edit Embed', description: 'Edit selected embed content', command: 'editEmbed', argsRequired: true },
+//         { id: 'removeembed', name: 'Remove Embed', description: 'Remove the selected embed', command: 'removeEmbed', aliases: ['deleteembed'] },
+
+//         // Tables
+//         // Note: 'inserttable' will insert default 3x3 table without args if called directly.
+//         // If you want to open the picker, use 'openTablePicker' command as previously discussed.
+//         { id: 'inserttable', name: 'Insert Table', description: 'Insert a table', command: 'insertTable', aliases: ['table'] },
+//         { id: 'addcolumnbefore', name: 'Add Column Before', description: 'Add column before current', command: 'addColumnBefore' },
+//         { id: 'addcolumnafter', name: 'Add Column After', description: 'Add column after current', command: 'addColumnAfter' },
+//         { id: 'deletecolumn', name: 'Delete Column', description: 'Delete current column', command: 'deleteColumn' },
+//         { id: 'addrowbefore', name: 'Add Row Before', description: 'Add row before current', command: 'addRowBefore' },
+//         { id: 'addrowafter', name: 'Add Row After', description: 'Add row after current', command: 'addRowAfter' },
+//         { id: 'deleterow', name: 'Delete Row', description: 'Delete current row', command: 'deleteRow' },
+//         { id: 'deletetable', name: 'Delete Table', description: 'Delete the current table', command: 'deleteTable' },
+//         { id: 'mergecells', name: 'Merge Cells', description: 'Merge selected table cells', command: 'mergeCells' },
+//         { id: 'splitcell', name: 'Split Cell', description: 'Split the current table cell', command: 'splitCell' },
+//         { id: 'toggleheadercolumn', name: 'Toggle Header Column', description: 'Toggle header status for column', command: 'toggleHeaderColumn' },
+//         { id: 'toggleheaderrow', name: 'Toggle Header Row', description: 'Toggle header status for row', command: 'toggleHeaderRow' },
+//         { id: 'toggleheadercell', name: 'Toggle Header Cell', description: 'Toggle header status for cell', command: 'toggleHeaderCell' },
+
+//         // Font & Color
+//         { id: 'setfontfamily', name: 'Set Font Family', description: 'Change font family', command: 'setFontFamily', argsRequired: true, aliases: ['font', 'fontfamily'] },
+//         { id: 'setfontsize', name: 'Set Font Size', description: 'Change font size', command: 'setFontSize', argsRequired: true, aliases: ['size', 'fontsize'] },
+//         { id: 'setfontsizewithunits', name: 'Set Font Size With Units', description: 'Change font size with specific units (e.g., px, em)', command: 'setFontSizeWithUnits', argsRequired: true, aliases: ['sizeunits'] },
+//         { id: 'setfontcolor', name: 'Set Font Color', description: 'Change font color', command: 'setFontColor', argsRequired: true, aliases: ['color', 'textcolor'] },
+//         { id: 'setbackgroundcolor', name: 'Set Background Color', description: 'Change background color', command: 'setBackgroundColor', argsRequired: true, aliases: ['bgcolor', 'highlightcolor'] },
+
+//         // Structural & Special Elements
+//         { id: 'inserthr', name: 'Insert Horizontal Rule', description: 'Insert a horizontal line', command: 'insertHr', aliases: ['hr', 'line'] },
+//         { id: 'setdirection', name: 'Set Text Direction', description: 'Set text direction (LTR/RTL)', command: 'setDirection', argsRequired: true, aliases: ['direction', 'ltr', 'rtl'] },
+//         { id: 'togglesubscript', name: 'Subscript', description: 'Apply subscript formatting', command: 'toggleSubScript', aliases: ['sub'] },
+//         { id: 'togglesuperscript', name: 'Superscript', description: 'Apply superscript formatting', command: 'toggleSuperScript', aliases: ['sup'] },
+//         { id: 'setlineheight', name: 'Set Line Height', description: 'Adjust line spacing', command: 'setLineHeight', argsRequired: true, aliases: ['lineheight', 'spacing'] },
+
+//         // HTML & Code Blocks
+//         { id: 'inserthtml', name: 'Insert HTML', description: 'Insert raw HTML content', command: 'insertHtml', argsRequired: true, aliases: ['html', 'codehtml'] },
+//         { id: 'edithtml', name: 'Edit HTML', description: 'Edit selected HTML content', command: 'editHtml', argsRequired: true },
+//         { id: 'removehtml', name: 'Remove HTML', description: 'Remove selected HTML content', command: 'removeHtml' },
+//         { id: 'insertcodeblock', name: 'Insert Code Block', description: 'Insert a code block', command: 'insertCodeBlock', aliases: ['code', 'codeblock'] },
+//         { id: 'deletecodeblock', name: 'Delete Code Block', description: 'Delete the selected code block', command: 'deleteCodeBlock' },
+//         { id: 'togglecodeblock', name: 'Toggle Code Block', description: 'Toggle code block formatting', command: 'toggleCodeBlock' },
+
+//         // Blockquotes
+//         { id: 'insertblockquote', name: 'Insert Blockquote', description: 'Insert a blockquote', command: 'insertBlockquote', aliases: ['blockquote', 'quote-block'] },
+//         { id: 'removeblockquote', name: 'Remove Blockquote', description: 'Remove the selected blockquote', command: 'removeBlockquote' },
+//         { id: 'toggleblockquote', name: 'Toggle Blockquote', description: 'Toggle blockquote formatting', command: 'toggleBlockquote' },
+
+//         // Utility & Paste Options
+//         { id: 'applyformatpainter', name: 'Apply Format Painter', description: 'Apply copied formatting', command: 'applyFormatPainter', aliases: ['formatpainter'] },
+//         { id: 'openziapanel', name: 'Open Zia Panel', description: 'Open Zia proofing panel', command: 'openZiaPanel', aliases: ['zia', 'proofing'] },
+//         { id: 'closeziapanel', name: 'Close Zia Panel', description: 'Close Zia proofing panel', command: 'closeZiaPanel' },
+//         { id: 'performenter', name: 'Perform Enter', description: 'Simulate an Enter key press', command: 'performEnter' },
+//         { id: 'formatpastedcontent', name: 'Format Pasted Content', description: 'Choose how to paste content', command: 'formatPastedContent', argsRequired: true, aliases: ['paste'] },
+//     ];
+// }
+
+function getsuggestions(){
     return [
         {
             "zuid": 1001,
@@ -922,5 +1097,5 @@ function getsuggestions() {
             "val": "sub@testrte.com",
             "emailid": "sub@testrte.com"
         }
-    ];    
+    ]; 
 }

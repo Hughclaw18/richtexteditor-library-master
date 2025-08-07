@@ -1,6 +1,9 @@
-import {Plugin} from 'prosemirror-state'; // no i18n
-import {Decoration, DecorationSet } from 'prosemirror-view'; //no i18n
-import {debounce} from '../RTEPluginUtils';//no i18n
+import { Plugin,PluginKey } from 'prosemirror-state'; // no i18n
+import { getSlashFormattingSuggestions } from './utils';
+import { Decoration,DecorationSet } from 'prosemirror-view'; //no i18n
+import { debounce } from '../RTEPluginUtils'; //no i18n
+
+import { openMediaPopoverCommand } from './utils.js';
 
 const nonTextLeafNodeReplacer = '\0';
 const showListDebounce = debounce();
@@ -16,9 +19,9 @@ var ignoreMouseEvents = false // to not call the setIndex function  by mouseout 
  */
 
 export function getRegexp(suggestionsTrigger, allowSpace) {
-    var suggestionsRegExp = allowSpace
-        ? new RegExp(suggestionsTrigger + '([\\p{L}\\p{M}\\p{N}\\-\\+]*[.]?\\s?[\\p{L}\\p{M}\\p{N}\\-\\+]*)$', "u")
-        : new RegExp(suggestionsTrigger + '([\\p{L}\\p{M}\\p{N}\\-\\+]*)$', "u"); // no i18n
+    var suggestionsRegExp = allowSpace ?
+        new RegExp(suggestionsTrigger + '([\\p{L}\\p{M}\\p{N}\\-\\+]*[.]?\\s?[\\p{L}\\p{M}\\p{N}\\-\\+]*)$', "u") :
+        new RegExp(suggestionsTrigger + '([\\p{L}\\p{M}\\p{N}\\-\\+]*)$', "u"); // no i18n
 
     return suggestionsRegExp
 }
@@ -42,12 +45,13 @@ export function getMatch($position, opts) {
         nonTextLeafNodeReplacer
     );
 
+
     var match = null;
     var type = null;
 
-    for(var i = 0; i < opts.trigger.length; i++) {
+    for (var i = 0; i < opts.trigger.length; i++) {
         let regex;
-        if(opts.trigger[i] instanceof RegExp) {//opts.trigger[i] can be either of type regexp or a normal text
+        if (opts.trigger[i] instanceof RegExp) { //opts.trigger[i] can be either of type regexp or a normal text
             regex = opts.trigger[i]
         } else {
             regex = getRegexp(
@@ -55,8 +59,8 @@ export function getMatch($position, opts) {
                 opts.allowSpace
             );
         }
-    
-        if(text.match(regex)) {
+
+        if (text.match(regex)) {
             match = text.match(regex);
             type = opts.trigger[i];
             break; //If a opts.trigger[i] has been matched, then don't match any other opts.trigger[i]
@@ -67,24 +71,39 @@ export function getMatch($position, opts) {
     if (match) {
         // adjust match.index to remove the matched extra space
 
-    	match.index = match.index;
-    	
+        match.index = match.index;
+
         // The absolute position of the match in the document
         var from = $position.start() + match.index;
         var to = from + match[0].length;
 
         var queryText;
 
-        if(type instanceof RegExp) {
+        if (type instanceof RegExp) {
             queryText = match[0];
         } else {
-            queryText = match[1];//if type is not of regexp, then return the first capturing group, becuase the regexp is constructed by default and it has one capturing group, which returns the text just after the trigger character
+            queryText = match[1]; //if type is not of regexp, then return the first capturing group, becuase the regexp is constructed by default and it has one capturing group, which returns the text just after the trigger character
+        }
+
+        // Check for alias match
+        let aliasMatch = false;
+        if (opts.suggestions) {
+            for (const suggestion of opts.suggestions) {
+                if (suggestion.aliases && suggestion.aliases.includes(queryText)) {
+                    aliasMatch = true;
+                    break;
+                }
+            }
         }
 
         return {
-            range: { from: from, to: to },
+            range: {
+                from: from,
+                to: to
+            },
             queryText: queryText,
-            type: type
+            type: type,
+            aliasMatch: aliasMatch
         };
     }
     // else if no match don't return anything.
@@ -112,7 +131,7 @@ function addEscapeSequenceForRegExpCharacters(text) {
 
 function removeEscapeSequenceForRegExpCharacters(text) {
     //remove the added escape character
-    if(text instanceof RegExp) {
+    if (text instanceof RegExp) {
         return text
     } else {
         return text.replace(/\\/g, '')
@@ -120,8 +139,8 @@ function removeEscapeSequenceForRegExpCharacters(text) {
 }
 
 function escapeRegExpCharacters(triggerCharacters) {
-    triggerCharacters.forEach((character, index)=>{
-        if(character instanceof RegExp) {
+    triggerCharacters.forEach((character, index) => {
+        if (character instanceof RegExp) {
             return
         } else {
             triggerCharacters[index] = addEscapeSequenceForRegExpCharacters(character)
@@ -136,32 +155,106 @@ function escapeRegExpCharacters(triggerCharacters) {
  * @param {JSONObject} opts
  * @returns {Plugin}
  */
-export function getSuggestionsPlugin(opts, richTextView) {
+export function getSlashCommandsPlugin(opts, richTextView) {
     // default options
     var defaultOpts = {
-        name: "suggestions",
+        name: "slashCommands",
         trigger: ['/'], // trigger is an array of characters
         allowSpace: true,
         activeClass: 'suggestion-dropdown-active', // no i18n
         suggestionTextClass: 'prosemirror-suggestion', // no i18n
-        getSuggestions: function(state, text, cb, view) {
-            cb([]);
+        getSlashCommands: function(state, text, cb, view) {
+            const slashCommandsuggestions = getSlashFormattingSuggestions(view, view.options);
+            const filtered = slashCommandsuggestions.filter(s =>
+                s.name.toLowerCase().startsWith(text.toLowerCase()) ||
+                (s.aliases && s.aliases.some(alias => alias.toLowerCase().startsWith(text.toLowerCase())))
+            );
+            cb && cb(filtered);
         },
-        getSuggestionsHTML: function(suggestions, state) {
-            return ''; // Default implementation returns empty string
+        getSlashCommandsHTML: function(slashCommandsuggestions) {
+            if (slashCommandsuggestions.length === 0) {
+                return '';
+            }
+            let el = `<div class="ui-rte-suggestion-item-list ui-rte-atmetion-suggestion-container zdc_shareautocompletedialog suggestion-dropdown-list">`
+            slashCommandsuggestions.forEach((suggestion) => {
+                el += `<div class="ui-rte-suggestion-item suggestion-dropdown-list-item">
+                                 <div class="" style="float:left;padding:3px;margin-top:5px">
+                                 <div style="" class="">
+                                     <span
+                                         class="ui-rte-cmnt-atmention-name"
+                                         id="full-name"
+                                     >${suggestion.name}</span>
+                                 </div>
+                                 <div class="">
+                                     <span class="graytxt" id="graytxt">${suggestion.description}&nbsp;</span>
+                                 </div>
+                                 </div>
+                             </div>`
+            })
+            el += `</div>`
+            return el;
         },
         onSelect: function(view, item, state) {
-            // Default implementation does nothing
-        },
-        maxNoOfSuggestions: 6,
-        delay: 200
+                const { from, to } = state.range;
+                view.editorView.dispatch(view.editorView.state.tr.delete(from, to));
+
+                // Check if the command is a function or a string
+                if (typeof item.command === 'function') {
+                    // If it's a function, execute it and pass the view
+                    item.command(view);
+                } else if (view.commands[item.command]) {
+                    // Otherwise, run it as a normal command string
+                    view.commands[item.command]();
+                    view.focus();
+                }
+                // view.commands[item.command]()
+                // view.editorView.focus();
+            },
+      
+            activeClass: 'suggestion-item-active',
+            suggestionTextClass: 'prosemirror-suggestion',
+            maxNoOfSuggestions: 6,
+            delay: 1000,
+            
+            placeDropdown(el, offset) {
+                // append el wherver you want
+                // set style whatever you want
+                // TODO: think about outsourcing this positioning logic as options
+                zwRteView.dom.append(el);
+
+                el.style.display = 'flex'; // no i18n
+                el.style.position = 'fixed'; // no i18n
+                el.style.left = '';
+                el.style.right = '';
+                // el.style.height = '150px' // inorder to test for scrolling inside the dropdown div uncomment this
+                // el.style.overflowY = 'auto'
+                var elWidth = el.offsetWidth;
+                var docWidth = document.documentElement.clientWidth;
+                var docHeight = document.documentElement.clientHeight;
+
+                // adjust left/right
+                if (offset.left + elWidth + 1 < docWidth) {
+                    el.style.left = offset.left + 'px'; // no i18n
+                } else {
+                    el.style.right = docWidth - offset.right + 'px'; // no i18n
+                }
+
+                // adjust top/bottom
+                if (offset.bottom + el.scrollHeight < docHeight) {
+                    var top = offset.bottom;
+                } else {
+                    var top = offset.top - el.scrollHeight;
+                }
+                el.style.top = top + 'px'; // no i18n
+            },
     };
+
 
     var opts = Object.assign({}, defaultOpts, opts);
 
-    // Ensure getSuggestionsHTML and onSelect are provided
-    if (!opts.getSuggestionsHTML || !opts.onSelect) {
-        throw new Error("Provide getSuggestionsHTML and onSelect functions in options for suggestions-plugin");
+    // Ensure getSlashCommandsHTML and onSelect are provided
+    if (!opts.getSlashCommandsHTML || !opts.onSelect) {
+        throw new Error("Provide getSlashCommandsHTML and onSelect functions in options for suggestions-plugin");
     }
 
     opts.trigger = escapeRegExpCharacters(opts.trigger);
@@ -178,10 +271,10 @@ export function getSuggestionsPlugin(opts, richTextView) {
         if (!suggestions.length) {
             return hideList(plugin);
         }
-        var suggestionsHTML = opts.getSuggestionsHTML(suggestions, {
-            range: state.range, 
+        var suggestionsHTML = opts.getSlashCommandsHTML(suggestions, {
+            range: state.range,
             trigger: removeEscapeSequenceForRegExpCharacters(state.type),
-            suggestions: state.suggestions, 
+            suggestions: state.suggestions,
             query: state.text
         });
 
@@ -191,7 +284,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
             el.innerHTML = ''; // Clear existing content
             el.appendChild(suggestionsHTML);
         }
-    
+
         // attach new item event handlers
         el.querySelectorAll('.suggestion-dropdown-list-item').forEach(function( // no i18n
             itemNode,
@@ -200,8 +293,8 @@ export function getSuggestionsPlugin(opts, richTextView) {
             itemNode.addEventListener('click', function() {
                 // no i18n
                 let item = state.suggestions[state.index];
-                opts.onSelect(view.rteView, item, {
-                    range: state.range, 
+                opts.onSelect(richTextView, item, {
+                    range: state.range,
                     trigger: removeEscapeSequenceForRegExpCharacters(state.type),
                     suggestions: state.suggestions,
                     query: state.text
@@ -228,10 +321,10 @@ export function getSuggestionsPlugin(opts, richTextView) {
                 }
             });
         });
-    
+
         // highlight first element by default - like Facebook.
         addClassAtIndex(state.index, opts.activeClass);
-    
+
         if (state.active) {
             adjust4viewportUsingFromPos(el, view.state.selection.$from.pos, view);
             state.isDropdownVisible = true;
@@ -242,12 +335,15 @@ export function getSuggestionsPlugin(opts, richTextView) {
         var offset = view.coordsAtPos(view.state.selection.$from.pos);
         var x = Math.floor(offset.left);
         var y = Math.floor(offset.bottom);
-        return {x, y};
+        return {
+            x,
+            y
+        };
     };
 
     var adjust4viewportUsingFromPos = function(el, fromPos, view) {
         var offset = view.coordsAtPos(fromPos);
-        
+
         richTextView.dom.append(el);
 
         el.style.display = 'block'; // no i18n
@@ -284,14 +380,16 @@ export function getSuggestionsPlugin(opts, richTextView) {
     var removeClassAtIndex = function(index, className) {
         var itemList = el.querySelectorAll('.suggestion-dropdown-list-item'); // no i18n
         var prevItem = itemList[index];
-        prevItem.classList.remove(className);
+        if (prevItem) {
+            prevItem.classList.remove(className);
+        }
     };
 
     var scrollElementIntoView = function(suggestionItemEl, suggestionContainerEl) {
         let suggestionItemRect = suggestionItemEl.getBoundingClientRect();
         let suggestionContainerRect = suggestionContainerEl.getBoundingClientRect();
         ignoreMouseEvents = true;
-        
+
         //to coincide the bottom of the suggestion item with the bottom of the suggestion container
         if (suggestionItemRect.bottom > suggestionContainerRect.bottom) {
             suggestionItemEl.scrollIntoView(false);
@@ -308,7 +406,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
 
     var addClassAtIndex = function(index, className) {
         var itemList = el.querySelectorAll('.suggestion-dropdown-list-item'); // no i18n
-        if (itemList.length) {
+        if (itemList.length && itemList[index]) {
             var prevItem = itemList[index];
             prevItem.classList.add(className);
             return true;
@@ -331,7 +429,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
         addClassAtIndex(state.index, opts.activeClass);
         var itemList = el.querySelectorAll('.suggestion-dropdown-list-item'); // no i18n
         if (itemList.length) {
-            var prevItem = itemList[state.index]; 
+            var prevItem = itemList[state.index];
             scrollElementIntoView(prevItem, el); // to bring the current element into view
         }
     };
@@ -344,7 +442,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
         addClassAtIndex(state.index, opts.activeClass);
         var itemList = el.querySelectorAll('.suggestion-dropdown-list-item'); // no i18n
         if (itemList.length) {
-            var prevItem = itemList[state.index]; 
+            var prevItem = itemList[state.index];
             scrollElementIntoView(prevItem, el); // to bring the current element into view
         }
     };
@@ -354,7 +452,8 @@ export function getSuggestionsPlugin(opts, richTextView) {
      * for the plugin properties spec.
      */
     return new Plugin({
-        key: richTextView.pluginKeys.suggestions, // no i18n
+        key: new PluginKey('slashCommands'), // no i18n
+
 
         // we will need state to track if suggestion dropdown is currently active or not
         state: {
@@ -385,6 +484,15 @@ export function getSuggestionsPlugin(opts, richTextView) {
 
                 const $position = selection.$from;
                 let match;
+
+                // Check if suggestions plugin is active
+                if (richTextView.pluginKeys.suggestions) {
+                    const suggestionsPlugin = richTextView.pluginKeys.suggestions.getState(richTextView.editorView.state);
+                    if (suggestionsPlugin && suggestionsPlugin.active) {
+                        return newState; // Do not activate slashCommands if suggestions is active
+                    }
+                }
+
                 if ($position.depth != 0) { //inorder to avoid gapcursor related problems when table is in first line
                     match = getMatch($position, opts);
                 }
@@ -394,6 +502,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
                     newState.range = match.range;
                     newState.type = match.type;
                     newState.text = match.queryText;
+                    newState.match = match;
                 }
 
                 return newState;
@@ -425,8 +534,9 @@ export function getSuggestionsPlugin(opts, richTextView) {
                     goPrev(view, state, opts);
                     return true;
                 } else if (enter) {
+                    e.preventDefault(); // Prevent default enter behavior
                     let item = state.suggestions[state.index];
-                    opts.onSelect(view.rteView, item, {
+                    opts.onSelect(richTextView, item, {
                         range: state.range,
                         trigger: removeEscapeSequenceForRegExpCharacters(state.type),
                         suggestions: state.suggestions,
@@ -454,7 +564,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
                     var state = this.getState(view.state);
                     var self = this;
                     if (state && state.suggestions.length) {
-                        // hide suggestions list if view is not focused
+                        // hide slashSuggestions list if view is not focused
                         setTimeout(function() {
                             hideList(self);
                         }, opts.delay - 30);
@@ -466,9 +576,8 @@ export function getSuggestionsPlugin(opts, richTextView) {
                     var state = this.getState(view.state);
                     var self = this;
                     if (state && state.suggestions.length) {
-                        opts.getSuggestions(
-                            {
-                                range: state.range, 
+                        opts.getSlashCommands({
+                                range: state.range,
                                 trigger: removeEscapeSequenceForRegExpCharacters(state.type),
                                 suggestions: state.suggestions
                             },
@@ -488,14 +597,17 @@ export function getSuggestionsPlugin(opts, richTextView) {
             },
             // to decorate the currently active @mention text in ui
             decorations(editorState) {
-                const { active, range } = this.getState(editorState);
+                const {
+                    active,
+                    range
+                } = this.getState(editorState);
 
                 if (!active) {
                     return null;
                 }
                 return DecorationSet.create(editorState.doc, [
                     Decoration.inline(range.from, range.to, {
-                        nodeName: 'a', // no i18n
+                        nodeName: 'span', // no i18n
                         class: opts.suggestionTextClass
                     })
                 ]);
@@ -530,11 +642,11 @@ export function getSuggestionsPlugin(opts, richTextView) {
                     // debounce the call to avoid multiple requests
                     showListTimeoutId = showListDebounce(
                         function() {
-                            opts.getSuggestions(
-                                {
-                                    range: state.range, 
+                            opts.getSlashCommands({
+                                    range: state.range,
                                     trigger: removeEscapeSequenceForRegExpCharacters(state.type),
-                                    suggestions: state.suggestions
+                                    suggestions: state.suggestions,
+                                    match: state.match
                                 },
                                 state.text,
                                 function(suggestions) {
@@ -552,7 +664,7 @@ export function getSuggestionsPlugin(opts, richTextView) {
                                     );
                                 },
                                 richTextView
-                            );   
+                            );
                         },
                         opts.delay,
                         this
@@ -562,14 +674,3 @@ export function getSuggestionsPlugin(opts, richTextView) {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-

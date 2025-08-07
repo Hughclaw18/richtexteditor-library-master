@@ -15,6 +15,7 @@ export default class ImageMenu {
         // the index i of blob array contains the base64 string of the file at index i in fileObject array.
         this.blobs = [] // initialize as array to support insertion of multiple images
         this.fileObjects = []
+        this.rteView.menubar.openImagePopover = this.showPopover.bind(this)
     }
 
     destroy() {

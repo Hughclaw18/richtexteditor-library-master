@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { version } from './package.json';
+// import { version } from './package.json';
 import copy from 'rollup-plugin-copy'
 import babel from '@rollup/plugin-babel';  // no i18n
 // import terser from '@rollup/plugin-terser';
@@ -10,10 +10,11 @@ import commonJS from 'rollup-plugin-commonjs';  // no i18n
 import builtins from 'rollup-plugin-node-builtins';
 import json from '@rollup/plugin-json';
 import handlebars from "rollup-plugin-handlebars-plus"
+import handlebars2 from "handlebars"
 
 var files = {};
 
-files[`./dist/${version}/css/rte.css`] = {
+files[`./dist/1.4.16/css/rte.css`] = {
     concatFiles: [
         "./css/editor.css",
         "./css/menubar.css",
@@ -30,7 +31,7 @@ let configuration = [
         input: './js/RichTextEditor.js',  // no i18n
         output: {
             format: 'iife', // no i18n
-            file: `./dist/${version}/js/rte.js`, // './dist/RTE1.js',  // no i18n
+            file: `./dist/1.4.16/js/rte.js`, // './dist/RTE1.js',  // no i18n
             name: 'RichTextEditor' // no i18n
         },
         plugins: [
@@ -43,7 +44,7 @@ let configuration = [
             handlebars({
                 handlebars: {
                     id: 'handlebars/runtime',
-                    module: require('handlebars')
+                    module: handlebars2
                 },
                 helpers: ['handlebars/lib/handlebars/helpers/each.js']
                 // helpersPureInitialize: true
@@ -53,7 +54,7 @@ let configuration = [
             }),
             copy({
                 targets: [
-                { src: 'images/*', dest: `dist/${version}/images` },
+                { src: 'images/*', dest: `dist/1.4.16/images` },
                 { src: 'dist-meta.json', dest: `dist/` }
                 ]
             })
@@ -63,7 +64,7 @@ let configuration = [
         input: './js/RichTextEditor.js',  // no i18n
         output: {
             format: 'iife', // no i18n
-            file: `./dist/${version}/js/rte.min.js`, // './dist/RTE1.js',  // no i18n
+            file: `./dist/1.4.16/js/rte.min.js`, // './dist/RTE1.js',  // no i18n
             name: 'RichTextEditor' // no i18n
         },
         plugins: [
@@ -76,7 +77,7 @@ let configuration = [
             handlebars({
                 handlebars: {
                     id: 'handlebars/runtime',
-                    module: require('handlebars')
+                    module: handlebars2
                 },
                 helpers: ['handlebars/lib/handlebars/helpers/each.js']
                 // helpersPureInitialize: true
@@ -88,7 +89,7 @@ let configuration = [
         input: './js/RichTextEditor.js',  // no i18n
         output: {
             format: 'iife', // no i18n
-            file: `./dist/${version}/js/rte.es5.js`, // './dist/RTE1.js',  // no i18n
+            file: `./dist/1.4.16/js/rte.es5.js`, // './dist/RTE1.js',  // no i18n
             name: 'RichTextEditor' // no i18n
         },
         plugins: [
@@ -101,7 +102,7 @@ let configuration = [
             handlebars({
                 handlebars: {
                     id: 'handlebars/runtime',
-                    module: require('handlebars')
+                    module: handlebars2
                 },
                 helpers: ['handlebars/lib/handlebars/helpers/each.js']
                 // helpersPureInitialize: true
@@ -122,7 +123,7 @@ let configuration = [
         input: './js/RichTextEditor.js',  // no i18n
         output: {
             format: 'iife', // no i18n
-            file: `./dist/${version}/js/rte.es5.min.js`, // './dist/RTE1.js',  // no i18n
+            file: `./dist/1.4.16/js/rte.es5.min.js`, // './dist/RTE1.js',  // no i18n
             name: 'RichTextEditor' // no i18n
         },
         plugins: [
@@ -135,7 +136,7 @@ let configuration = [
             handlebars({
                 handlebars: {
                     id: 'handlebars/runtime',
-                    module: require('handlebars')
+                    module: handlebars2
                 },
                 helpers: ['handlebars/lib/handlebars/helpers/each.js']
                 // helpersPureInitialize: true
@@ -157,7 +158,7 @@ let configuration = [
         input: './js/RichTextEditor.js',  // no i18n
         output: {
             format: 'es', // no i18n
-            file: `./dist/${version}/js/rte.es.js`, // './dist/RTE1.js',  // no i18n
+            file: `./dist/1.4.16/js/rte.es.js`, // './dist/RTE1.js',  // no i18n
             name: 'RichTextEditor' // no i18n
         },
         plugins: [
@@ -170,7 +171,7 @@ let configuration = [
             handlebars({
                 handlebars: {
                     id: 'handlebars/runtime',
-                    module: require('handlebars')
+                    module: handlebars2
                 },
                 helpers: ['handlebars/lib/handlebars/helpers/each.js']
                 // helpersPureInitialize: true

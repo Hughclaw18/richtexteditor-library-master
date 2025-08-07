@@ -18,6 +18,8 @@ import LinkContextMenu from "./menubar/LinkContextMenu";
 import converter from "./utils/SizeConverter.js";
 import atmentionTemplate from "../templates/atmention.hbs"
 import { getSuggestionsPlugin } from "./prosemirror-suggestions"
+import { getSlashCommandsPlugin } from "./prosemirror-suggestions-slashcommands"
+
 import { addHtmlNode } from "./prosemirror-html"
 import { getFormatPainterPlugin } from "./prosemirror-format-painter"
 import { addDefaultMarks, addLinkMark, addAnchorNode } from './Schema'
@@ -877,6 +879,12 @@ let registerDefaultElements = function() {
                 var plugin = this.getPlugin(feature, rteView);
                 plugins.push(plugin);
             }
+        },
+
+        slashCommands: {
+            addPlugin: function (plugins, feature, rteView, schema) {
+                plugins.push(getSlashCommandsPlugin(feature, rteView,options.formats))
+            },
         },
 
         emoji: {
