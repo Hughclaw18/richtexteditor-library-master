@@ -117,7 +117,6 @@ export function getSlashFormattingSuggestions(view,formats) {
         { id: 'setfontsize', name: 'Set Font Size', description: 'Change font size', command: 'setFontSize', argsRequired: true, aliases: ['size', 'fontsize'] },
         { id: 'setfontsizewithunits', name: 'Set Font Size With Units', description: 'Change font size with specific units (e.g., px, em)', command: 'setFontSizeWithUnits', argsRequired: true, aliases: ['sizeunits'] },
         { id: 'setfontcolor', name: 'Set Font Color', description: 'Change font color', command: 'setFontColor', argsRequired: true, aliases: ['color', 'textcolor'] },
-        { id: 'setbackgroundcolor', name: 'Set Background Color', description: 'Change background color', command: 'setBackgroundColor', argsRequired: true, aliases: ['bgcolor', 'highlightcolor'] },
 
         // Structural & Special Elements
         { id: 'inserthr', name: 'Insert Horizontal Rule', description: 'Insert a horizontal line', command: 'insertHr', aliases: ['hr', 'line'] },
